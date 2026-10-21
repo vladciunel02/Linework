@@ -1,4 +1,5 @@
-# Nu primesc notă pentru că nu am pus titlu și descriere
+# Linework
+A simplified vector graphics editor in C++. Draw rectangles, ellipses and lines, select, move and resize them, edit their style, with undo/redo, zoom and pan, and JSON save/load.
 
 ### Folosiți template-ul corespunzător grupei voastre!
 
