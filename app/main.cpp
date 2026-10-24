@@ -6,6 +6,8 @@
 #include <SFML/Graphics.hpp>
 
 #include "Example.h"
+#include "Point.h"
+#include "../include/Point.h"
 
 //////////////////////////////////////////////////////////////////////
 /// This class is used to test that the memory leak checks work as expected even when using a GUI
@@ -59,6 +61,7 @@ int main() {
     for(int i = 0; i < nr; ++i) {
         std::cout << "- " << v[i] << "\n";
     }
+
     ///////////////////////////////////////////////////////////////////////////
     /// Pentru date citite din fișier, NU folosiți tastatura.txt. Creați-vă voi
     /// alt fișier propriu cu ce alt nume doriți.
