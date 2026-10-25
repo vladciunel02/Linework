@@ -11,6 +11,8 @@ private:
     double x_pos;
     double y_pos;
 public:
+    double getX(){return x_pos;}
+    double getY(){return y_pos;}
     Point(double x_pos, double y_pos);
 
     Point moveBy(double xOffset, double yOffset) const;

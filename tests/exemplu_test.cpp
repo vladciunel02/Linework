@@ -9,7 +9,7 @@
 #include <stdexcept>
 
 #include "Example.h"      // the library under test; include/ comes from oop
-
+#include "point_test.h"
 static_assert(Example::limit > 0, "the invariant below assumes a positive limit");
 
 // checked through the public interface only: the helper behind the invariant is
@@ -48,6 +48,12 @@ int main() {
         threw = true;
     }
     assert(threw && "the constructor must not hand out a broken object either");
+
+
+    //testing the point methods in mainTest
+
+    testPointDistance();
+    testPointMove();
 
     return 0;
 }
