@@ -63,6 +63,7 @@ int main() {
     testColorMissingHash();
     testColorInvalidLength();
     testColorInvalidCharacters();
+    testColorLowerCase();
 
     return 0;
 }
