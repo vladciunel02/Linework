@@ -76,6 +76,27 @@ int main() {
     std::cout << c << "\n";
     delete c;  // comentarea acestui rând ar trebui să ducă la semnalarea unui mem leak
 
+    //declaram niste puncte
+    Point p1(1, 2);
+    Point p2(3, 4);
+    //le afisam in consola valoriile sa vedem daca merge
+    std::cout << p1 << "\n";
+    std::cout << p2 << "\n";
+
+    //apelam si niste metode
+    double dist = p1.distanceTo(p2);
+
+    //afisam distanta
+    std::cout<<dist<<"\n";
+
+    //mutam si un punct
+    Point p3 = p1.moveBy(1, 2);
+
+    //il afisam
+    std::cout << p3 << "\n";
+
+
+
     sf::RenderWindow window;
     ///////////////////////////////////////////////////////////////////////////
     /// NOTE: sync with env variable APP_WINDOW from .github/workflows/cmake.yml:31
