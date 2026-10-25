@@ -80,6 +80,7 @@ target_sources(${MAIN_LIBRARY_NAME}
         src/Example.cpp
         src/internal/Detail.cpp
         src/Point.cpp
+        src/Color.cpp
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

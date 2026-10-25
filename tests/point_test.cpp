@@ -6,7 +6,6 @@
 
 #include "point_test.h"
 #include "Point.h"
-#include "../include/Point.h"
 
 void testPointDistance() {
     Point p1(0,0);

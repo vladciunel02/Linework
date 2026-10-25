@@ -10,6 +10,7 @@
 
 #include "Example.h"      // the library under test; include/ comes from oop
 #include "point_test.h"
+#include "color_test.h"
 static_assert(Example::limit > 0, "the invariant below assumes a positive limit");
 
 // checked through the public interface only: the helper behind the invariant is
@@ -54,6 +55,14 @@ int main() {
 
     testPointDistance();
     testPointMove();
+    
+
+    //testing the color methods in mainTest
+    testColorValid_1();
+    testColorValid_2();
+    testColorMissingHash();
+    testColorInvalidLength();
+    testColorInvalidCharacters();
 
     return 0;
 }
