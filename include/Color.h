@@ -16,5 +16,6 @@ class Color {
     public:
     explicit Color(const std::string& hex);
     friend std::ostream& operator<<(std::ostream& os, const Color& color);
+    friend bool operator==(const Color& lhs, const Color& rhs);
 };
 #endif //PROIECTPOO_COLOR_H

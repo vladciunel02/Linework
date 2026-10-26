@@ -4,6 +4,7 @@ add_executable(${TESTS_EXECUTABLE_NAME}
     exemplu_test.cpp
         point_test.cpp
         color_test.cpp
+        style_test.cpp
 )
 
 target_link_libraries(${TESTS_EXECUTABLE_NAME} PRIVATE ${MAIN_LIBRARY_NAME})
