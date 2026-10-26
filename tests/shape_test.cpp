@@ -14,14 +14,14 @@ namespace {
     }
 }
 
-void testRectangleContains() {
+void testRectangleContainsPoint() {
     const Rectangle r{makeStyle(), Point{100, 50}, 200, 80};
     assert(r.containsPoint(Point{150, 90}) && "point inside rectangle");
     assert(!r.containsPoint(Point{350, 90}) && "point right of rectangle");
     assert(r.containsPoint(Point{300, 130}) && "bottom-right corner counts as inside");
 }
 
-void testEllipseContains() {
+void testEllipseContainsPoint() {
     const Ellipse e{makeStyle(), Point{0, 0}, 100, 100};
     assert(e.containsPoint(Point{50, 50}) && "center inside ellipse");
     assert(e.containsPoint(Point{100, 50}) && "point on the edge inside ellipse");
@@ -43,7 +43,7 @@ void testShapePrint() {
     const Rectangle r{makeStyle(), Point{0, 0}, 10, 10};
     const Ellipse e{makeStyle(), Point{0, 0}, 10, 10};
 
-    // prin referință la Shape, ca să verificăm că apelul virtual alege tipul real
+    // prin referinta la Shape, ca să verificam că apelul virtual alege tipul real
     const Shape& s1 = r;
     const Shape& s2 = e;
 
