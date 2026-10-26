@@ -2,8 +2,8 @@
 // Created by vlad on 10/27/26.
 //
 
-#ifndef PROIECTPOO_ELIPSE_H
-#define PROIECTPOO_ELIPSE_H
+#ifndef PROIECTPOO_ELLIPSE_H
+#define PROIECTPOO_ELLIPSE_H
 #include "Shape.h"
 class Ellipse : public Shape{
 public:
@@ -13,4 +13,4 @@ protected:
     std::string getShapeType() const override { return "Ellipse"; }
 };
 
-#endif //PROIECTPOO_ELIPSE_H
+#endif //PROIECTPOO_ELLIPSE_H
