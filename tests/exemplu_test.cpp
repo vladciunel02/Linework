@@ -8,7 +8,7 @@
 #include <cassert>
 #include <stdexcept>
 
-#include "Example.h"      // the library under test; include/ comes from oop
+#include "Example.h" // the library under test; include/ comes from oop
 #include "point_test.h"
 #include "color_test.h"
 #include "style_test.h"
@@ -17,7 +17,8 @@ static_assert(Example::limit > 0, "the invariant below assumes a positive limit"
 
 // checked through the public interface only: the helper behind the invariant is
 // file-local in src/Example.cpp and cannot even be named here
-int main() {
+int main()
+{
     Example e;
     assert(e.value() == 0);
 
@@ -27,39 +28,46 @@ int main() {
     assert(e.value() == 0);
 
     bool threw = false;
-    try {
+    try
+    {
         e.add(-1);
-    } catch (const std::invalid_argument&) {
+    }
+    catch (const std::invalid_argument &)
+    {
         threw = true;
     }
     assert(threw && "add() must refuse to go below 0");
     assert(e.value() == 0 && "a failed call leaves the object untouched");
 
     threw = false;
-    try {
+    try
+    {
         e.add(Example::limit + 1);
-    } catch (const std::invalid_argument&) {
+    }
+    catch (const std::invalid_argument &)
+    {
         threw = true;
     }
     assert(threw && "add() must refuse to go above limit");
 
     threw = false;
-    try {
+    try
+    {
         Example broken{Example::limit + 1};
-        (void) broken;
-    } catch (const std::invalid_argument&) {
+        (void)broken;
+    }
+    catch (const std::invalid_argument &)
+    {
         threw = true;
     }
     assert(threw && "the constructor must not hand out a broken object either");
 
-
-    //testing the point methods in mainTest
+    // testing the point methods in mainTest
 
     testPointDistance();
     testPointMove();
-    
 
-    //testing the color methods in mainTest
+    // testing the color methods in mainTest
     testColorValid_1();
     testColorValid_2();
     testColorMissingHash();
@@ -67,20 +75,18 @@ int main() {
     testColorInvalidCharacters();
     testColorLowerCase();
 
-
-    //testing the style methods in mainTest
+    // testing the style methods in mainTest
 
     testStyleConstructor();
     testStyleBadColor();
     testStyleBadStrokeWidth();
 
-
-    //testing the shape methods in mainTest
-    testRectangleContains();
-    testEllipseContains();
+    // testing the shape methods in mainTest
+    testRectangleContainsPoint();
+    testEllipseContainsPoint();
     testShapeMove();
     testShapePrint();
-    testShapeInvalidSize();
+    testShapeInvalidDimensions();
 
     return 0;
 }
