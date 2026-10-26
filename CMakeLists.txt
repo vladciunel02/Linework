@@ -82,6 +82,8 @@ target_sources(${MAIN_LIBRARY_NAME}
         src/Point.cpp
         src/Color.cpp
         src/Style.cpp
+        src/Shape.cpp
+        src/Rectangle.cpp
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

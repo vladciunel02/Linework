@@ -17,7 +17,6 @@ public:
     void moveTo(const Point &newPosition);
     void moveBy(double xOffset, double yOffset);
     virtual bool containsPoint(const Point &point) const = 0;
-    virtual void print(std::ostream &os) const = 0;
     virtual ~Shape() = default;
     friend std::ostream& operator<<(std::ostream& os, const Shape& shape);
 protected:
