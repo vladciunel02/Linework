@@ -12,6 +12,7 @@
 #include "point_test.h"
 #include "color_test.h"
 #include "style_test.h"
+#include "shape_test.h"
 static_assert(Example::limit > 0, "the invariant below assumes a positive limit");
 
 // checked through the public interface only: the helper behind the invariant is
@@ -72,6 +73,14 @@ int main() {
     testStyleConstructor();
     testStyleBadColor();
     testStyleBadStrokeWidth();
+
+
+    //testing the shape methods in mainTest
+    testRectangleContains();
+    testEllipseContains();
+    testShapeMove();
+    testShapePrint();
+    testShapeInvalidSize();
 
     return 0;
 }
