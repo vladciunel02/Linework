@@ -56,7 +56,7 @@ void testShapePrint() {
     assert(out2.str().find("Ellipse") == 0 && "Ellipse prints its own type");
 }
 
-void testShapeInvalidSize() {
+void testShapeInvalidDimensions() {
     bool threw = false;
     try {
         const Rectangle r{makeStyle(), Point{0, 0}, 0, 10};
