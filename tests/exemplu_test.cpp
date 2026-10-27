@@ -13,6 +13,7 @@
 #include "color_test.h"
 #include "style_test.h"
 #include "shape_test.h"
+#include "layer_test.h"
 static_assert(Example::limit > 0, "the invariant below assumes a positive limit");
 
 // checked through the public interface only: the helper behind the invariant is
@@ -87,6 +88,15 @@ int main()
     testShapeMove();
     testShapePrint();
     testShapeInvalidDimensions();
+
+
+    // testing the layer methods in mainTest
+    testLayerTopmostShape();
+    testLayerReorder();
+    testLayerCopyIsDeep();
+    testLayerAssignmentIsDeep();
+    testLayerNames();
+    testLayerPrint();
 
     return 0;
 }

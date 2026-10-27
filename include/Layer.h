@@ -20,13 +20,14 @@ class Layer{
 
     std::string getName() const{return name;};
     void rename(const std::string &name); 
-
     void addShape(std::unique_ptr<Shape> shape);
     void bringToFront(Shape* shape);
     void sendToBack(Shape* shape);
     Shape* getShapeUnderCursor(const Point &cursorPosition);
     friend std::ostream& operator<<(std::ostream& os, const Layer& layer);
     Layer& operator=(const Layer& other);
+
+    ~Layer() = default;
     
 };
 #endif //PROIECTPOO_LAYER_H
