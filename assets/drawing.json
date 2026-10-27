@@ -1,0 +1,38 @@
+{
+  "name": "Primul meu desen",
+  "canvas": { "width": 800, "height": 600 },
+  "layers": [
+    {
+      "name": "Fundal",
+      "shapes": [
+        {
+          "type": "rectangle",
+          "position": { "x": 100, "y": 80 },
+          "width": 200,
+          "height": 120,
+          "style": {
+            "fill": "#E53935",
+            "stroke": "#000000",
+            "strokeWidth": 2
+          }
+        }
+      ]
+    },
+    {
+      "name": "Detalii",
+      "shapes": [
+        {
+          "type": "ellipse",
+          "position": { "x": 400, "y": 150 },
+          "width": 160,
+          "height": 100,
+          "style": {
+            "fill": "#1E88E5",
+            "stroke": "#0D47A1",
+            "strokeWidth": 3
+          }
+        }
+      ]
+    }
+  ]
+}
