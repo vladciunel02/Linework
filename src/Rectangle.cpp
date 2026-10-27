@@ -19,3 +19,7 @@ bool Rectangle::containsPoint(const Point &point) const {
     }
     return false;
 }
+
+std::unique_ptr<Shape> Rectangle::clone() const {
+    return std::make_unique<Rectangle>(*this);
+}

@@ -15,3 +15,6 @@ bool Ellipse::containsPoint(const Point &point) const {
     return ((x - centerX) * (x - centerX)) / (radiusX * radiusX) +
            ((y - centerY) * (y - centerY)) / (radiusY * radiusY) <= 1;
 }
+std::unique_ptr<Shape> Ellipse::clone() const{
+    return std::make_unique<Ellipse>(*this);
+}

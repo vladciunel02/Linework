@@ -9,6 +9,7 @@ class Ellipse : public Shape{
 public:
     Ellipse(const Style &style, const Point &position, double width, double height);
     bool containsPoint(const Point &point) const override;
+    std::unique_ptr<Shape> clone() const override;
 protected:
     std::string getShapeType() const override { return "Ellipse"; }
 };

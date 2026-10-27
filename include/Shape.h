@@ -7,6 +7,7 @@
 #include "Style.h"
 #include "Point.h"
 #include <string>
+#include <memory>
 class Shape{
 private:
     Style style;
@@ -17,6 +18,7 @@ public:
     void moveTo(const Point &newPosition);
     void moveBy(double xOffset, double yOffset);
     virtual bool containsPoint(const Point &point) const = 0;
+    virtual std::unique_ptr<Shape> clone() const = 0;
     virtual ~Shape() = default;
     friend std::ostream& operator<<(std::ostream& os, const Shape& shape);
 protected:
