@@ -18,7 +18,7 @@ class Layer{
     //copy contructor pentru duplicate layer
     Layer(const Layer& other);
 
-    std::string getName() const{return name;};
+    const std::string& getName() const{return name;}
     void rename(const std::string &name); 
     void addShape(std::unique_ptr<Shape> shape);
     void bringToFront(const Shape* shape);
