@@ -21,8 +21,8 @@ class Layer{
     std::string getName() const{return name;};
     void rename(const std::string &name); 
     void addShape(std::unique_ptr<Shape> shape);
-    void bringToFront(Shape* shape);
-    void sendToBack(Shape* shape);
+    void bringToFront(const Shape* shape);
+    void sendToBack(const Shape* shape);
     Shape* getShapeUnderCursor(const Point &cursorPosition);
     friend std::ostream& operator<<(std::ostream& os, const Layer& layer);
     Layer& operator=(const Layer& other);

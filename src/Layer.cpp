@@ -39,7 +39,7 @@ Shape* Layer::getShapeUnderCursor(const Point &cursorPosition) {
     return nullptr;
 }
 
-void Layer::bringToFront(Shape* shape){
+void Layer::bringToFront(const Shape* shape){
     for(auto it = shapes.begin(); it != shapes.end(); ++it) {
         if(it->get() == shape) {
             std::unique_ptr<Shape> temp = std::move(*it);
@@ -52,7 +52,7 @@ void Layer::bringToFront(Shape* shape){
     
 }
 
-void Layer::sendToBack(Shape* shape){
+void Layer::sendToBack(const Shape* shape){
     for(auto it = shapes.begin(); it != shapes.end(); ++it) {
         if(it->get() == shape) {
             std::unique_ptr<Shape> temp = std::move(*it);
