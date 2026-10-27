@@ -26,7 +26,7 @@ class Layer{
     void sendToBack(Shape* shape);
     Shape* getShapeUnderCursor(const Point &cursorPosition);
     friend std::ostream& operator<<(std::ostream& os, const Layer& layer);
-    friend bool operator==(const Layer& lhs, const Layer& rhs);
+    Layer& operator=(const Layer& other);
     
 };
 #endif //PROIECTPOO_LAYER_H
