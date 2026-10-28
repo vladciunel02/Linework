@@ -86,6 +86,8 @@ target_sources(${MAIN_LIBRARY_NAME}
         src/Rectangle.cpp
         src/Ellipse.cpp
         src/Layer.cpp
+        src/Canvas.cpp
+        src/Drawing.cpp
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

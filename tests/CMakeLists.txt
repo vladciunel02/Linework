@@ -7,6 +7,7 @@ add_executable(${TESTS_EXECUTABLE_NAME}
         style_test.cpp
         shape_test.cpp
         layer_test.cpp
+        canvas_test.cpp
 )
 
 target_link_libraries(${TESTS_EXECUTABLE_NAME} PRIVATE ${MAIN_LIBRARY_NAME})

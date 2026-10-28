@@ -14,6 +14,7 @@
 #include "style_test.h"
 #include "shape_test.h"
 #include "layer_test.h"
+#include "canvas_test.h"
 static_assert(Example::limit > 0, "the invariant below assumes a positive limit");
 
 // checked through the public interface only: the helper behind the invariant is
@@ -98,5 +99,10 @@ int main()
     testLayerNames();
     testLayerPrint();
 
+
+    // testing the canvas methods in mainTest
+    testConstructorValid();
+    testCanvasContainsPointInside();
+    testCanvasContainsPointOutside();
     return 0;
 }
