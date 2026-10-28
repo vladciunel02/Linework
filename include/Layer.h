@@ -12,12 +12,12 @@ class Layer{
     private:
     std::string name;
     std::vector<std::unique_ptr<Shape>> shapes;
-    static bool isValidName(const std::string& name);
+    
     public:
     explicit Layer(const std::string& name);
     //copy contructor pentru duplicate layer
     Layer(const Layer& other);
-
+    Layer& operator=(const Layer& other);
     const std::string& getName() const{return name;}
     void rename(const std::string &name); 
     void addShape(std::unique_ptr<Shape> shape);

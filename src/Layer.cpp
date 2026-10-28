@@ -4,14 +4,8 @@
 #include "Layer.h"
 #include <stdexcept>
 #include <cctype>
-bool Layer::isValidName(const std::string& name) {
-    for(char c : name){
-        if(!std::isspace(static_cast<unsigned char>(c))) {
-            return true;
-        }
-    }
-    return false;
-}
+#include "internal/NameHelper.h"
+
 Layer::Layer(const std::string& name) : name(name) {
     if(!isValidName(name)) {
         throw std::invalid_argument("Invalid layer name");
