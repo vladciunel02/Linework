@@ -32,9 +32,9 @@ namespace{
         double width = json.at("width").get<double>();
         double height = json.at("height").get<double>();
 
-        if(type == "Ellipse") {
+        if(type == "ellipse" || type == "Ellipse") {
             return std::make_unique<Ellipse>(style, position, width, height);
-        } else if(type == "Rectangle") {
+        } else if(type == "rectangle" || type == "Rectangle") {
             return std::make_unique<Rectangle>(style, position, width, height);
         } 
         else {
