@@ -9,7 +9,7 @@ Canvas::Canvas(int width, int height) : width(width), height(height) {
         throw std::invalid_argument("Invalid canvas dimensions");
     }
 }
-bool Canvas::containsPoint(const Point& point) const {
+bool Canvas::containsPoint (const Point& point) const {
     double x = point.getX();
     double y = point.getY();
     return (x >= 0 && x <= width && y >= 0 && y <= height);

@@ -14,7 +14,7 @@ class Canvas{
     static constexpr int maxWidth = 16384; // 16384 e valoare rezonabila 
     static constexpr int maxHeight = 16384; //fiind dimensiunea maxima pe care multe placi grafice o pot suporta
     Canvas(int width, int height);
-    bool containsPoint(const Point& point) const;
+    bool containsPoint (const Point& point) const;
     friend std::ostream& operator<<(std::ostream& os, const Canvas& canvas);
 
 };

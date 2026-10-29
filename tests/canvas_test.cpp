@@ -8,7 +8,7 @@
 #include <cassert>
 void testConstructorValid() {
     Canvas canvas(800, 600);
-    assert(canvas.containsPoint(Point(400, 300))); // Point inside the canvas
+    assert(canvas.containsPoint(Point{400, 300})); // Point inside the canvas
 }
 
 void testCanvasContainsPointOutside() {
