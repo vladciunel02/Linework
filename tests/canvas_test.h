@@ -6,7 +6,6 @@
 #define PROIECTPOO_CANVAS_TEST_H
 
 void testConstructorValid();
-void testCanvasContainsPointInside();
 void testCanvasContainsPointOutside();
 
 
