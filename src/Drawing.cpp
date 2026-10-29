@@ -10,7 +10,7 @@
 #include "Ellipse.h"
 #include "Rectangle.h"
 namespace{
-    Point readPoint(const nlohmann::json& json) { //cautam in json acolo unde e position
+    Point readPoint(const nlohmann::json& json) { //cautam in json inauntru shape acolo unde e position
         double x = json.at("x").get<double>();
         double y = json.at("y").get<double>();
         return Point(x, y);
@@ -18,7 +18,7 @@ namespace{
     Color readColor(const nlohmann::json& json) {
         return Color(json.get<std::string>());
     }
-    Style readStyle(const nlohmann::json& json){ //cautam in json acolo unde e style
+    Style readStyle(const nlohmann::json& json){ //cautam in json inuntru shape acolo unde e style
         Color fillColor = readColor(json.at("fill"));
         Color strokeColor = readColor(json.at("stroke"));
         double strokeWidth = json.at("strokeWidth").get<double>();
@@ -29,14 +29,13 @@ namespace{
         std::string type = json.at("type").get<std::string>();
         Point position = readPoint(json.at("position"));
         Style style = readStyle(json.at("style"));
+        double width = json.at("width").get<double>();
+        double height = json.at("height").get<double>();
 
-        if(type == "Circle") {
-            double radius = json.at("radius").get<double>();
-            return std::make_unique<Ellipse>(position, radius, style);
+        if(type == "Ellipse") {
+            return std::make_unique<Ellipse>(style, position, width, height);
         } else if(type == "Rectangle") {
-            double width = json.at("width").get<double>();
-            double height = json.at("height").get<double>();
-            return std::make_unique<Rectangle>(position, width, height, style);
+            return std::make_unique<Rectangle>(style, position, width, height);
         } 
         else {
             throw std::invalid_argument("Unknown shape type: " + type);
@@ -90,7 +89,7 @@ Shape* Drawing::getShapeUnderCursor(const Point& cursorPosition){
 Drawing Drawing::loadFromFile(const std::string& filename) {
     std::ifstream file(filename);
     if(!file.is_open()){
-        throw std::runtime_error("Could not open file");
+        throw std::runtime_error("Could not open file" + filename);
     }
     nlohmann::json json = nlohmann::json::parse(file);
     std::string drawingName = json.at("name").get<std::string>(); // convert to std::string

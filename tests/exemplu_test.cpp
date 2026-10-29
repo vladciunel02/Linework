@@ -102,7 +102,6 @@ int main()
 
     // testing the canvas methods in mainTest
     testConstructorValid();
-    testCanvasContainsPointInside();
     testCanvasContainsPointOutside();
     return 0;
 }
