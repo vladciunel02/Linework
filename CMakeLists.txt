@@ -87,6 +87,7 @@ target_sources(${MAIN_LIBRARY_NAME}
         src/Canvas.cpp
         src/Drawing.cpp
         src/internal/NameHelper.cpp
+        src/Editor.cpp
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

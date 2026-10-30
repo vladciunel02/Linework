@@ -20,6 +20,7 @@ public:
     void removeLayer(const std::string& layerName);
     Layer& getLayer(const std::string& layerName);
     Shape* getShapeUnderCursor(const Point& cursorPosition);
+    Layer* getLayerUnderCursor(const Point& cursorPosition);
     static Drawing loadFromFile(const std::string& filename);
     friend std::ostream& operator<<(std::ostream& os, const Drawing& drawing);
 };

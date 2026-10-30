@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <json/json.hpp>
 #include <fstream>
+#include <ranges>
 #include "Shape.h"
 #include "Ellipse.h"
 #include "Rectangle.h"
@@ -74,18 +75,24 @@ Layer& Drawing::getLayer(const std::string& layerName) {
     throw std::invalid_argument("Layer not found");
 }
 Shape* Drawing::getShapeUnderCursor(const Point& cursorPosition){
-    if(!canvas.containsPoint(cursorPosition)) {
+    Layer* layer = getLayerUnderCursor(cursorPosition);
+    if(layer != nullptr) {
+        return layer->getShapeUnderCursor(cursorPosition);
+    }
+    return nullptr;
+}
+Layer* Drawing::getLayerUnderCursor(const Point& cursorPosition){
+    if(!canvas.containsPoint(cursorPosition)){
         return nullptr;
     }
-    for(auto it = layers.rbegin(); it != layers.rend(); ++it) {
-        Shape* shape = it->getShapeUnderCursor(cursorPosition);
+    for(auto &layer : layers | std::views::reverse) { // e ca cel cu iterator doar ca mai usor de citit
+        const Shape* shape = layer.getShapeUnderCursor(cursorPosition);
         if(shape != nullptr) {
-            return shape;
+            return &layer;
         }
     }
     return nullptr;
 }
-
 Drawing Drawing::loadFromFile(const std::string& filename) {
     std::ifstream file(filename);
     if(!file.is_open()){
