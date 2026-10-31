@@ -74,5 +74,7 @@ int main()
     testEditorFront();
     testEditorNoSelection();
     testEditorRun();
+    testEditorDelete();
+    testEditorResize();
     return 0;
 }

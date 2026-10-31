@@ -32,7 +32,15 @@ Shape* Layer::getShapeUnderCursor(const Point &cursorPosition) {
     }
     return nullptr;
 }
-
+void Layer::deleteShape(const Shape* shape) {
+    for(auto it = shapes.begin(); it != shapes.end(); ++it) {
+        if(it->get() == shape) {
+            shapes.erase(it);
+            return;
+        }
+    }
+    throw std::invalid_argument("Shape not found in the layer");
+}
 void Layer::bringToFront(const Shape* shape){
     for(auto it = shapes.begin(); it != shapes.end(); ++it) {
         if(it->get() == shape) {

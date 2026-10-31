@@ -22,10 +22,10 @@ class Layer{
     void addShape(std::unique_ptr<Shape> shape);
     void bringToFront(const Shape* shape);
     void sendToBack(const Shape* shape);
+    void deleteShape(const Shape* shape);
     Shape* getShapeUnderCursor(const Point &cursorPosition);
     friend std::ostream& operator<<(std::ostream& os, const Layer& layer);
     Layer& operator=(const Layer& other);
-
     ~Layer() = default;
     
 };

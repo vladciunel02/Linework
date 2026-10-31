@@ -84,6 +84,13 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
         }
         Editor::add(layerName, os);
     }
+    else if(firstWord == "delete"){
+        Editor::deleteShape(os);
+    }
+    else if(firstWord == "resize"){
+        auto[newWidth, newHeight] = readCoordinates(iss, firstWord);
+        Editor::resizeShape(newWidth, newHeight, os);
+    }
     else {
         throw std::invalid_argument("Unknown action: " + firstWord);
     }
@@ -156,6 +163,19 @@ void Editor::add(const std::string& layerName, std::ostream& os){
     selectedShape = nullptr;
     selectedLayerName.clear();
     os << "Added new layer: " << layerName << '\n';
+}
+void Editor::deleteShape(std::ostream& os){
+    requireSelection();
+    Layer& layer = drawing.getLayer(selectedLayerName);
+    os << "Deleted shape: " << *selectedShape << " from layer: " << selectedLayerName << '\n';
+    layer.deleteShape(selectedShape);
+    selectedShape = nullptr;
+    selectedLayerName.clear();
+}
+void Editor::resizeShape(double newWidth, double newHeight, std::ostream& os){
+    requireSelection();
+    selectedShape->resize(newWidth, newHeight);
+    os << "Resized shape: " << *selectedShape << " in layer: " << selectedLayerName << '\n';
 }
 void Editor::run(std::istream& is, std::ostream& os){
     std::string command;

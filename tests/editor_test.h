@@ -10,6 +10,8 @@ void testEditorMove();
 void testEditorFront();
 void testEditorNoSelection();
 void testEditorRun();
+void testEditorDelete();
+void testEditorResize();
 
 
 #endif //PROIECTPOO_EDITOR_TEST_H

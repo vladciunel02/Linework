@@ -70,3 +70,54 @@ void testEditorRun() {
     assert(text.find("Error: Unknown action: bla") != std::string::npos && "run reports the wrong command");
     assert(text.find("Rectangle at (80, 60)") != std::string::npos && "run keeps going after an error");
 }
+
+void testEditorDelete() {
+    Editor editor{Drawing::loadFromFile("assets/drawing.json")};
+    std::ostringstream out;
+
+    // (300, 200): elipsa galbena e deasupra dreptunghiului rosu
+    editor.executeAction("select 300 200", out);
+    editor.executeAction("delete", out);
+
+    // fara elipsa, acelasi click gaseste dreptunghiul de dedesubt
+    std::ostringstream afterDelete;
+    editor.executeAction("select 300 200", afterDelete);
+    assert(afterDelete.str().find("Rectangle") != std::string::npos && "delete removes the shape from the layer");
+
+    // delete fara nimic selectat e refuzat
+    editor.executeAction("select 600 400", out);
+    bool threw = false;
+    try {
+        editor.executeAction("delete", out);
+    } catch (const std::invalid_argument&) {
+        threw = true;
+    }
+    assert(threw && "delete without a selected shape is rejected");
+}
+
+void testEditorResize() {
+    Editor editor{Drawing::loadFromFile("assets/drawing.json")};
+    std::ostringstream out;
+
+    // dreptunghiul rosu ocupa (50, 50)-(350, 250); il micsoram la 20 x 20
+    editor.executeAction("select 100 100", out);
+    editor.executeAction("resize 20 20", out);
+
+    // acum ocupa doar (50, 50)-(70, 70), deci (100, 100) e pe gol
+    std::ostringstream afterResize;
+    editor.executeAction("select 60 60", afterResize);
+    editor.executeAction("select 100 100", afterResize);
+    const std::string text = afterResize.str();
+    assert(text.find("Rectangle") != std::string::npos && "the corner stays where it was");
+    assert(text.find("No shape found") != std::string::npos && "the shape got smaller");
+
+    // dimensiunile invalide sunt refuzate
+    editor.executeAction("select 60 60", out);
+    bool threw = false;
+    try {
+        editor.executeAction("resize 0 50", out);
+    } catch (const std::invalid_argument&) {
+        threw = true;
+    }
+    assert(threw && "resize rejects a zero width");
+}

@@ -17,7 +17,13 @@ void Shape::moveTo(const Point &newPosition) {
 void Shape::moveBy(double xOffset, double yOffset) {
     position = position.moveBy(xOffset, yOffset);
 }
-
+void Shape::resize(double newWidth, double newHeight) {
+    if (newWidth <= 0 || newHeight <= 0) {
+        throw std::invalid_argument("Width and height must be positive.");
+    }
+    width = newWidth;
+    height = newHeight;
+}
 std::ostream& operator<<(std::ostream& os, const Shape& shape) {
     os << shape.getShapeType() << " at " << shape.position << " with width " << shape.width
        << ", height " << shape.height << ", style: " << shape.style;
