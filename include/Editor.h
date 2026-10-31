@@ -22,5 +22,7 @@
         void moveTo(const Point& newPosition, std::ostream& os);
         void front(std::ostream& os);
         void back(std::ostream& os);
+        void duplicate(const std::string& layerName, const std::string& newLayerName, std::ostream& os);
+        void rename(const std::string& oldName, const std::string& newName, std::ostream& os);
     };
     #endif //PROIECTPOO_EDITOR_H

@@ -15,6 +15,14 @@ namespace{
         auto pair = std::make_pair(x, y);
         return pair;
     }
+    std::pair<std::string, std::string> readLayerNames(std::istringstream& iss, const std::string& actionName) {
+        std::string layerName1;
+        std::string layerName2;
+        if(!(iss >> layerName1 >> layerName2)) {
+            throw std::invalid_argument("Invalid layer names for " + actionName + " action");
+        }
+        return std::make_pair(layerName1, layerName2);
+    }
 }
 Editor::Editor(const Drawing& drawing) : drawing(drawing){}
 
@@ -53,6 +61,14 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
     }
     else if(firstWord == "back"){
         Editor::back(os);
+    }
+    else if(firstWord == "duplicate"){
+        auto [existingLayer, newLayer] = readLayerNames(iss, firstWord);
+        Editor::duplicate(existingLayer, newLayer, os);
+    }
+    else if(firstWord == "rename"){
+        auto [oldName, newName] = readLayerNames(iss, firstWord);
+        Editor::rename(oldName, newName, os);
     }
     else {
         throw std::invalid_argument("Unknown action: " + firstWord);
@@ -94,7 +110,25 @@ void Editor::back(std::ostream& os){
     layer.sendToBack(selectedShape);
     os << "Sent shape to back: " << *selectedShape << " in layer: " << selectedLayerName << '\n';
 }
-
+void Editor::duplicate(const std::string& layerName, const std::string& newLayerName, std::ostream& os){
+    const Layer& layer = drawing.getLayer(layerName);
+    //folosim copy constructorul pentru a crea un nou layer cu aceleasi forme
+    Layer newLayer(layer);
+    newLayer.rename(newLayerName);
+    drawing.addLayer(newLayer);
+    //dam clear la selectia curenta pentru a evita probleme de memorie
+    selectedShape = nullptr;
+    selectedLayerName.clear();
+    os << "Duplicated layer: " << layerName << " to new layer: " << newLayerName << '\n';
+}
+void Editor::rename(const std::string& oldName, const std::string& newName, std::ostream& os){
+    drawing.renameLayer(oldName, newName);
+    //daca layerul selectat e cel care a fost redenumit, actualizam numele
+    if(selectedLayerName == oldName) {
+        selectedLayerName = newName;
+    }
+    os << "Renamed layer: " << oldName << " to new layer: " << newName << '\n';
+}
 void Editor::print(std::ostream& os) const {
     os << drawing;
 }

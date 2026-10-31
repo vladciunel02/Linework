@@ -93,6 +93,18 @@ Layer* Drawing::getLayerUnderCursor(const Point& cursorPosition){
     }
     return nullptr;
 }
+void Drawing::renameLayer(const std::string& oldName, const std::string& newName) {
+    if(newName == oldName) {
+        throw std::invalid_argument("New name is the same as the old name");
+    }
+    Layer& layer = getLayer(oldName);
+    for(const auto& existingLayer : layers) {
+        if(existingLayer.getName() == newName) {
+            throw std::invalid_argument("Layer with the same name already exists");
+        }
+    }
+    layer.rename(newName);
+}
 Drawing Drawing::loadFromFile(const std::string& filename) {
     std::ifstream file(filename);
     if(!file.is_open()){

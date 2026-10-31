@@ -22,6 +22,7 @@ public:
     Canvas getCanvas() const { return canvas; }
     Shape* getShapeUnderCursor(const Point& cursorPosition);
     Layer* getLayerUnderCursor(const Point& cursorPosition);
+    void renameLayer(const std::string& oldName, const std::string& newName);
     static Drawing loadFromFile(const std::string& filename);
     friend std::ostream& operator<<(std::ostream& os, const Drawing& drawing);
 };
