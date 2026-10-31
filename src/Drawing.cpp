@@ -7,9 +7,12 @@
 #include <json/json.hpp>
 #include <fstream>
 #include <ranges>
+#include <iomanip>
+#include <sstream>
 #include "Shape.h"
 #include "Ellipse.h"
 #include "Rectangle.h"
+
 namespace{
     Point readPoint(const nlohmann::json& json) { //cautam in json inauntru shape acolo unde e position
         double x = json.at("x").get<double>();
@@ -24,8 +27,8 @@ namespace{
         Color strokeColor = readColor(json.at("stroke"));
         double strokeWidth = json.at("strokeWidth").get<double>();
         return Style(fillColor, strokeColor, strokeWidth);
-
     }
+    
     std::unique_ptr<Shape> readShape(const nlohmann::json& json) {
         std::string type = json.at("type").get<std::string>();
         Point position = readPoint(json.at("position"));
@@ -41,6 +44,13 @@ namespace{
         else {
             throw std::invalid_argument("Unknown shape type: " + type);
         }
+    }
+    std::string colorToHex(const Color& color) {
+        std::ostringstream oss;
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(color.getR())
+            << std::setw(2) << std::setfill('0') << static_cast<int>(color.getG())
+            << std::setw(2) << std::setfill('0') << static_cast<int>(color.getB());
+        return "#" + oss.str();
     }
 }
 Drawing::Drawing(const std::string& name, const Canvas& canvas) : name(name), canvas(canvas) {
@@ -127,7 +137,40 @@ Drawing Drawing::loadFromFile(const std::string& filename) {
      }
      return drawing;
     }
-
+nlohmann::json Drawing::saveToJson(const Drawing& drawing) {
+    nlohmann::json json;
+    json["name"] = drawing.name;
+    json["canvas"]["width"] = drawing.canvas.getWidth();
+    json["canvas"]["height"] = drawing.canvas.getHeight();
+    for(const auto& layer : drawing.layers) {
+        nlohmann::json layerJson;
+        layerJson["name"] = layer.getName();
+        layerJson["shapes"] = nlohmann::json::array();
+        
+        for(const auto& shape : layer.getShapes()) {
+            nlohmann::json shapeJson;
+            shapeJson["type"] = shape->getShapeType();
+            shapeJson["position"]["x"] = shape->getPosition().getX();
+            shapeJson["position"]["y"] = shape->getPosition().getY();
+            shapeJson["style"]["fill"] = colorToHex(shape->getStyle().getFillColor());
+            shapeJson["style"]["stroke"] = colorToHex(shape->getStyle().getStrokeColor());
+            shapeJson["style"]["strokeWidth"] = shape->getStyle().getStrokeWidth();
+            shapeJson["width"] = shape->getWidth();
+            shapeJson["height"] = shape->getHeight();
+            layerJson["shapes"].push_back(shapeJson);
+        }
+        json["layers"].push_back(layerJson);
+    }
+    return json;
+}
+void Drawing::saveToFile(const std::string& filename) const {
+    nlohmann::json json = saveToJson(*this);
+    std::ofstream file(filename);
+    if(!file.is_open()){
+        throw std::runtime_error("Could not open file" + filename);
+    }
+    file << std::setw(4) << json << std::endl;
+}
 std::ostream& operator<<(std::ostream& os, const Drawing& drawing) {
     os << "Drawing: " << drawing.name << "\n";
     os << drawing.canvas << "\n";

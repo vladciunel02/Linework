@@ -91,6 +91,13 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
         auto[newWidth, newHeight] = readCoordinates(iss, firstWord);
         Editor::resizeShape(newWidth, newHeight, os);
     }
+    else if(firstWord =="save"){
+        std::string filename;
+        if(!(iss >> filename)) {
+            throw std::invalid_argument("Invalid filename for save action");
+        }
+        Editor::saveFile(filename, os);
+    }
     else {
         throw std::invalid_argument("Unknown action: " + firstWord);
     }
@@ -181,10 +188,10 @@ void Editor::run(std::istream& is, std::ostream& os){
     std::string command;
     while(std::getline(is, command)) {
         if(!command.empty() && command.back() == '\r') {
-            command.pop_back(); // skip empty lines
+            command.pop_back(); 
         }
         if(command.empty()) {
-            continue; // skip empty lines
+            continue; 
         }
         os << " > " << command << '\n';
         try {
@@ -194,6 +201,10 @@ void Editor::run(std::istream& is, std::ostream& os){
         }
     }
         
+}
+void Editor::saveFile(const std::string& filename, std::ostream& os){
+   drawing.saveToFile(filename);
+    os << "Saved drawing to file: " << filename << '\n';
 }
 void Editor::print(std::ostream& os) const {
     os << drawing;

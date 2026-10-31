@@ -29,5 +29,6 @@
         void deleteShape(std::ostream& os);
         void resizeShape(double newWidth, double newHeight, std::ostream& os);
         void run(std::istream& is, std::ostream& os);
+        void saveFile(const std::string& filename, std::ostream& os);
     };
     #endif //PROIECTPOO_EDITOR_H

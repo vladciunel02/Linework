@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <ostream>
+#include <json/json.hpp>
 #include "Canvas.h"
 class Drawing{
 private:
@@ -19,10 +20,15 @@ public:
     void addLayer(const Layer& layer);
     void removeLayer(const std::string& layerName);
     Layer& getLayer(const std::string& layerName);
+    const std::vector<Layer>& getLayers() const { return layers; }
     Shape* getShapeUnderCursor(const Point& cursorPosition);
     Layer* getLayerUnderCursor(const Point& cursorPosition);
+    const std::string& getName() const { return name; }
     void renameLayer(const std::string& oldName, const std::string& newName);
     static Drawing loadFromFile(const std::string& filename);
+    static nlohmann::json saveToJson(const Drawing& drawing);
+    void saveToFile(const std::string& filename) const;
+    void saveFile(const std::string& filename, std::ostream& os) const;
     friend std::ostream& operator<<(std::ostream& os, const Drawing& drawing);
 };
 #endif //PROIECTPOO_DRAWING_H

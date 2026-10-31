@@ -15,6 +15,9 @@ class Color {
     void setColorFromHex(const std::string& hex);
     public:
     explicit Color(const std::string& hex);
+    std::uint8_t getR() const { return r; }
+    std::uint8_t getG() const { return g; }
+    std::uint8_t getB() const { return b; }
     friend std::ostream& operator<<(std::ostream& os, const Color& color);
     friend bool operator==(const Color& lhs, const Color& rhs);
 };

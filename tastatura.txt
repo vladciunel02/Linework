@@ -24,8 +24,10 @@ add Schita
 duplicate Detalii Copie
 rename Fundal Cer
 rename Cer Detalii
-remove Schita
 remove Lipsa
+
+save salvat.json
+save folder_inexistent/salvat.json
 
 select abc 10
 bla

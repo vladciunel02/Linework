@@ -24,7 +24,7 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Shape& shape);
     double getWidth() const { return width; }
     double getHeight() const { return height; }
-protected:
+    Style getStyle() const { return style; }
     Shape(const Style &style, const Point &position, double width, double height);
     virtual std::string getShapeType() const = 0;
     Point getPosition() const { return position; }
