@@ -1,7 +1,7 @@
 # no project(): nested projects reset PROJECT_SOURCE_DIR / PROJECT_NAME
 
 add_executable(${TESTS_EXECUTABLE_NAME}
-    exemplu_test.cpp
+    test_main.cpp
         point_test.cpp
         color_test.cpp
         style_test.cpp
@@ -9,6 +9,7 @@ add_executable(${TESTS_EXECUTABLE_NAME}
         layer_test.cpp
         canvas_test.cpp
         drawing_test.cpp
+        editor_test.cpp
         
 )
 

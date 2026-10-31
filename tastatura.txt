@@ -1,2 +1,22 @@
-5
-11 22 33 44 55
+print
+select 300 200
+select 100 100
+front
+select 300 200
+back
+select 300 200
+move 30 10
+moveto 50 300
+select 850 500
+move 10 10
+select 580 150
+duplicate Detalii Copie
+front
+rename Fundal Cer
+rename Cer Detalii
+duplicate Lipsa Nou
+select abc 10
+moveto 5
+bla
+
+print

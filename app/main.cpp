@@ -8,7 +8,8 @@
 #include "Point.h"
 #include "Style.h"
 #include "Color.h"
-
+#include "Drawing.h"
+#include "Editor.h"
 
 
 int main() {
@@ -49,7 +50,14 @@ int main() {
     //afisam stilul
     std::cout << s1 << "\n";
 
-
+    try {
+        const Drawing drawing = Drawing::loadFromFile("assets/drawing.json");
+        Editor editor{drawing};
+        editor.run(std::cin, std::cout);
+    } catch (const std::exception& e) {
+        // fisier lipsa, JSON invalid sau date invalide in fisier
+        std::cout << "Could not load the drawing: " << e.what() << '\n';
+    }
 
     sf::RenderWindow window;
     ///////////////////////////////////////////////////////////////////////////

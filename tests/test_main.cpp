@@ -15,7 +15,7 @@
 #include "layer_test.h"
 #include "canvas_test.h"
 #include "drawing_test.h"
-
+#include "editor_test.h"
 
 // checked through the public interface only: the helper behind the invariant is
 // file-local in src/Example.cpp and cannot even be named here
@@ -67,5 +67,12 @@ int main()
     testDrawingShapeUnderCursor();
     testDrawingLayers();
     testDrawingInvalid();
+
+    //testing editor methods
+    testEditorSelect();
+    testEditorMove();
+    testEditorFront();
+    testEditorNoSelection();
+    testEditorRun();
     return 0;
 }
