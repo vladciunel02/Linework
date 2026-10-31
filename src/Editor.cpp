@@ -70,6 +70,20 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
         auto [oldName, newName] = readLayerNames(iss, firstWord);
         Editor::rename(oldName, newName, os);
     }
+    else if(firstWord == "remove"){
+        std::string layerName;
+        if(!(iss >> layerName)) {
+            throw std::invalid_argument("Invalid layer name for remove action");
+        }
+        Editor::remove(layerName, os);
+    }
+    else if(firstWord == "add"){
+        std::string layerName;
+        if(!(iss >> layerName)) {
+            throw std::invalid_argument("Invalid layer name for add action");
+        }
+        Editor::add(layerName, os);
+    }
     else {
         throw std::invalid_argument("Unknown action: " + firstWord);
     }
@@ -128,6 +142,38 @@ void Editor::rename(const std::string& oldName, const std::string& newName, std:
         selectedLayerName = newName;
     }
     os << "Renamed layer: " << oldName << " to new layer: " << newName << '\n';
+}
+void Editor::remove(const std::string& layerName, std::ostream& os){
+    drawing.removeLayer(layerName);
+    ///dam clear la selectia curenta pentru a evita probleme de memorie 
+    selectedShape = nullptr;
+    selectedLayerName.clear();
+    os << "Removed layer: " << layerName << '\n';
+}
+void Editor::add(const std::string& layerName, std::ostream& os){
+    Layer newLayer(layerName);
+    drawing.addLayer(newLayer);
+    selectedShape = nullptr;
+    selectedLayerName.clear();
+    os << "Added new layer: " << layerName << '\n';
+}
+void Editor::run(std::istream& is, std::ostream& os){
+    std::string command;
+    while(std::getline(is, command)) {
+        if(command.empty() || command.back() == '\r') {
+            continue; // skip empty lines
+        }
+        if(command.empty()) {
+            continue; // skip empty lines
+        }
+        os << " > " << command << '\n';
+        try {
+            executeAction(command, os);
+        }catch(const std::exception& e) {
+            os << "Error: " << e.what() << '\n';
+        }
+    }
+        
 }
 void Editor::print(std::ostream& os) const {
     os << drawing;

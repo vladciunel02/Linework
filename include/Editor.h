@@ -24,5 +24,8 @@
         void back(std::ostream& os);
         void duplicate(const std::string& layerName, const std::string& newLayerName, std::ostream& os);
         void rename(const std::string& oldName, const std::string& newName, std::ostream& os);
+        void remove(const std::string& layerName, std::ostream& os);
+        void add(const std::string& layerName, std::ostream& os);
+        void run(std::istream& is, std::ostream& os);
     };
     #endif //PROIECTPOO_EDITOR_H
