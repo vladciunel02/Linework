@@ -21,12 +21,13 @@ public:
     virtual std::unique_ptr<Shape> clone() const = 0;
     virtual ~Shape() = default;
     friend std::ostream& operator<<(std::ostream& os, const Shape& shape);
+    double getWidth() const { return width; }
+    double getHeight() const { return height; }
 protected:
     Shape(const Style &style, const Point &position, double width, double height);
     virtual std::string getShapeType() const = 0;
     Point getPosition() const { return position; }
-    double getWidth() const { return width; }
-    double getHeight() const { return height; }
+    
 
 };
 #endif //PROIECTPOO_SHAPE_H

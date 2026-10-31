@@ -19,6 +19,7 @@ public:
     void addLayer(const Layer& layer);
     void removeLayer(const std::string& layerName);
     Layer& getLayer(const std::string& layerName);
+    Canvas getCanvas() const { return canvas; }
     Shape* getShapeUnderCursor(const Point& cursorPosition);
     Layer* getLayerUnderCursor(const Point& cursorPosition);
     static Drawing loadFromFile(const std::string& filename);
