@@ -160,7 +160,7 @@ void Editor::add(const std::string& layerName, std::ostream& os){
 void Editor::run(std::istream& is, std::ostream& os){
     std::string command;
     while(std::getline(is, command)) {
-        if(command.empty() && command.back() == '\r') {
+        if(!command.empty() && command.back() == '\r') {
             command.pop_back(); // skip empty lines
         }
         if(command.empty()) {
