@@ -32,8 +32,8 @@ void Shape::setStrokeColor(const Color& color){
     Style newStyle(style.getFillColor(), color, style.getStrokeWidth());
     style = newStyle;
 }
-void Shape::setStrokeWidth(double width){
-    Style newStyle(style.getFillColor(), style.getStrokeColor(), width);
+void Shape::setStrokeWidth(double newWidth){
+    Style newStyle(style.getFillColor(), style.getStrokeColor(), newWidth);
     style = newStyle;
 }
 void Shape::setStyle(const Color& fillColor, const Color& strokeColor, double strokeWidth){

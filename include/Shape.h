@@ -20,7 +20,7 @@ public:
     void resize(double newWidth, double newHeight);
     void setFillColor(const Color& color);
     void setStrokeColor(const Color& color);
-    void setStrokeWidth(double width);
+    void setStrokeWidth(double newWidth);
     void setStyle(const Color& fillColor, const Color& strokeColor, double strokeWidth);
     virtual bool containsPoint(const Point &point) const = 0;
     virtual std::unique_ptr<Shape> clone() const = 0;
