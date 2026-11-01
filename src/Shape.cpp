@@ -24,6 +24,22 @@ void Shape::resize(double newWidth, double newHeight) {
     width = newWidth;
     height = newHeight;
 }
+void Shape::setFillColor(const Color& color){
+    Style newStyle(color, style.getStrokeColor(), style.getStrokeWidth());
+    style = newStyle;
+}
+void Shape::setStrokeColor(const Color& color){
+    Style newStyle(style.getFillColor(), color, style.getStrokeWidth());
+    style = newStyle;
+}
+void Shape::setStrokeWidth(double width){
+    Style newStyle(style.getFillColor(), style.getStrokeColor(), width);
+    style = newStyle;
+}
+void Shape::setStyle(const Color& fillColor, const Color& strokeColor, double strokeWidth){
+    Style newStyle(fillColor, strokeColor, strokeWidth);
+    style = newStyle;
+}
 std::ostream& operator<<(std::ostream& os, const Shape& shape) {
     os << shape.getShapeType() << " at " << shape.position << " with width " << shape.width
        << ", height " << shape.height << ", style: " << shape.style;

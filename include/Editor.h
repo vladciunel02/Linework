@@ -30,5 +30,10 @@
         void resizeShape(double newWidth, double newHeight, std::ostream& os);
         void run(std::istream& is, std::ostream& os);
         void saveFile(const std::string& filename, std::ostream& os);
+        void loadFile(const std::string& filename, std::ostream& os);
+        void fillShape(const std::string& color, std::ostream& os);
+        void strokeShape(const std::string& color, std::ostream& os);
+        void strokeWidthShape(double width, std::ostream& os);
+        void setStyleShape(const std::string& fillColor, const std::string& strokeColor, double strokeWidth, std::ostream& os);
     };
     #endif //PROIECTPOO_EDITOR_H

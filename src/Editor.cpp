@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <utility>
+#include <tuple>
 namespace{
     std::pair<double, double> readCoordinates(std::istringstream& iss,  const std::string& actionName) {
         double x = 0;
@@ -22,6 +23,15 @@ namespace{
             throw std::invalid_argument("Invalid layer names for " + actionName + " action");
         }
         return std::make_pair(layerName1, layerName2);
+    }
+    std::tuple<std::string, std::string, double> readStyle(std::istringstream& iss, const std::string& actionName) {
+        std::string fillColor;
+        std::string strokeColor;
+        double strokeWidth = 0;
+        if(!(iss >> fillColor >> strokeColor >> strokeWidth)) {
+            throw std::invalid_argument("Invalid style parameters for " + actionName + " action");
+        }
+        return std::make_tuple(fillColor, strokeColor, strokeWidth);
     }
 }
 Editor::Editor(const Drawing& drawing) : drawing(drawing){}
@@ -97,6 +107,38 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
             throw std::invalid_argument("Invalid filename for save action");
         }
         Editor::saveFile(filename, os);
+    }
+    else if(firstWord == "load"){
+        std::string filename;
+        if(!(iss >> filename)) {
+            throw std::invalid_argument("Invalid filename for load action");
+        }
+        Editor::loadFile(filename, os);
+    }
+    else if(firstWord == "fill"){
+        std::string color;
+        if(!(iss >> color)) {
+            throw std::invalid_argument("Invalid color for fill action");
+        }
+        Editor::fillShape(color, os);
+    }
+    else if(firstWord == "stroke"){
+        std::string color;
+        if(!(iss >> color)) {
+            throw std::invalid_argument("Invalid color for stroke action");
+        }
+        Editor::strokeShape(color, os);
+    }
+    else if(firstWord == "strokewidth"){
+        double width = 0;
+        if(!(iss >> width)) {
+            throw std::invalid_argument("Invalid width for strokewidth action");
+        }
+        Editor::strokeWidthShape(width, os);
+    }
+    else if(firstWord == "style"){
+        auto [fillColor, strokeColor, strokeWidth] = readStyle(iss, firstWord);
+        Editor::setStyleShape(fillColor, strokeColor, strokeWidth, os);
     }
     else {
         throw std::invalid_argument("Unknown action: " + firstWord);
@@ -205,6 +247,36 @@ void Editor::run(std::istream& is, std::ostream& os){
 void Editor::saveFile(const std::string& filename, std::ostream& os){
    drawing.saveToFile(filename);
     os << "Saved drawing to file: " << filename << '\n';
+}
+void Editor::loadFile(const std::string& filename, std::ostream& os){
+    drawing = Drawing::loadFromFile(filename);
+    selectedShape = nullptr;
+    selectedLayerName.clear();
+    os << "Loaded drawing from file: " << filename << " (selection cleared)" << '\n';
+}
+void Editor::fillShape(const std::string& color, std::ostream& os){
+    requireSelection();
+    Color fillColor(color);
+    selectedShape->setFillColor(fillColor);
+    os << "Set fill color of shape: " << *selectedShape << " in layer: " << selectedLayerName << " to: " << fillColor << '\n';
+}
+void Editor::strokeShape(const std::string& color, std::ostream& os){
+    requireSelection();
+    Color strokeColor(color);
+    selectedShape->setStrokeColor(strokeColor);
+    os << "Set stroke color of shape: " << *selectedShape << " in layer: " << selectedLayerName << " to: " << strokeColor << '\n';
+}
+void Editor::strokeWidthShape(double width, std::ostream& os){
+    requireSelection();
+    selectedShape->setStrokeWidth(width);
+    os << "Set stroke width of shape: " << *selectedShape << " in layer: " << selectedLayerName << " to: " << width << '\n';
+}
+void Editor::setStyleShape(const std::string& fillColor, const std::string& strokeColor, double strokeWidth, std::ostream& os){
+    requireSelection();
+    Color fill(fillColor);
+    Color stroke(strokeColor);
+    selectedShape->setStyle(fill, stroke, strokeWidth);
+    os << "Set style of shape: " << *selectedShape << " in layer: " << selectedLayerName << " to fill: " << fill << ", stroke: " << stroke << ", stroke width: " << strokeWidth << '\n';
 }
 void Editor::print(std::ostream& os) const {
     os << drawing;
