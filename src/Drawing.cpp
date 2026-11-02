@@ -101,6 +101,9 @@ Layer* Drawing::getLayerUnderCursor(const Point& cursorPosition){
         return nullptr;
     }
     for(auto &layer : layers | std::views::reverse) { // e ca cel cu iterator doar ca mai usor de citit
+        if(!layer.isVisible()) {
+            continue; 
+        }
         const Shape* shape = layer.getShapeUnderCursor(cursorPosition);
         if(shape != nullptr) {
             return &layer;

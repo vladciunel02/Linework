@@ -38,5 +38,7 @@
         void createAndSelectShape(const std::string& layerName, const std::string& type, const Style& style,
                                      const Point& position, double width, double height, std::ostream& os);
         void setLayerVisibility(const std::string& layerName, bool visible, std::ostream& os);
+        void listLayers(std::ostream& os) const;
+        void info(std::ostream& os) const;
     };
     #endif //PROIECTPOO_EDITOR_H

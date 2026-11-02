@@ -174,6 +174,12 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
     }
     Editor::setLayerVisibility(layerName, firstWord == "show", os);
     }
+    else if(firstWord == "layers"){
+    Editor::listLayers(os);
+    }
+    else if(firstWord == "info"){
+    Editor::info(os);
+    }
     else {
         throw std::invalid_argument("Unknown action: " + firstWord);
     }
@@ -327,6 +333,34 @@ void Editor::setLayerVisibility(const std::string& layerName, bool visible, std:
         selectedLayerName.clear();
     }
     os << (visible ? "Shown layer: " : "Hidden layer: ") << layerName << '\n';
+}
+void Editor::listLayers(std::ostream& os) const {
+    const auto& layers = drawing.getLayers();
+    if(layers.empty()) {
+        os << "No layers in the drawing" << '\n';
+        return;
+    }
+    os << "Layers (bottom to top):" << '\n';
+    int index = 1;
+    for(const auto& layer : layers) {
+        os << index << ". " << layer.getName()
+           << " - " << layer.getShapes().size() << " shape(s)";
+        if(!layer.isVisible()) {
+            os << " (hidden)";
+        }
+        // marcam layerul formei selectate
+        if(layer.getName() == selectedLayerName) {
+            os << " <- selected";
+        }
+        os << '\n';
+        ++index;
+    }
+}
+void Editor::info(std::ostream& os) const {
+    requireSelection();
+    os << "Selected shape: " << *selectedShape << '\n';
+    os << "Type: " << selectedShape->getShapeType() << '\n';
+    os << "Layer: " << selectedLayerName << '\n';
 }
 void Editor::print(std::ostream& os) const {
     os << drawing;

@@ -1,4 +1,5 @@
 print
+layers
 
 select 300 200
 select 100 100
@@ -34,6 +35,7 @@ rect Detalii 10 10
 strokewidth 3
 select 600 340
 select 160 440
+info
 
 hide Detalii
 select 600 340
@@ -50,6 +52,7 @@ select 580 150
 delete
 select 580 150
 delete
+info
 
 select 850 500
 move 10 10
@@ -60,6 +63,8 @@ duplicate Detalii Copie
 rename Fundal Cer
 rename Cer Detalii
 remove Lipsa
+select 100 100
+layers
 
 save assets/salvat.json
 save folder_inexistent/salvat.json
