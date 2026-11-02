@@ -33,6 +33,21 @@ namespace{
         }
         return std::make_tuple(fillColor, strokeColor, strokeWidth);
     }
+    std::tuple<std::string, double, double, double, double, std::string, std::string, double> readShapeParameters(std::istringstream& iss, const std::string& actionName) {
+        std::string layerName;
+        double x = 0;
+        double y = 0;
+        double width = 0;
+        double height = 0;
+        std::string fillColor;
+        std::string strokeColor;
+        double strokeWidth = 0;
+
+        if(!(iss >> layerName >> x >> y >> width >> height >> fillColor >> strokeColor >> strokeWidth)) {
+            throw std::invalid_argument("Invalid shape parameters for " + actionName + " action");
+        }
+        return std::make_tuple(layerName, x, y, width, height, fillColor, strokeColor, strokeWidth);
+    }
 }
 Editor::Editor(const Drawing& drawing) : drawing(drawing){}
 
@@ -139,6 +154,18 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
     else if(firstWord == "style"){
         auto [fillColor, strokeColor, strokeWidth] = readStyle(iss, firstWord);
         Editor::setStyleShape(fillColor, strokeColor, strokeWidth, os);
+    }
+    else if(firstWord == "rect"){
+        auto [layerName, x, y, width, height, fillColor, strokeColor, strokeWidth] = readShapeParameters(iss, firstWord);
+        const Point position(x, y);
+        const Style style(Color(fillColor), Color(strokeColor), strokeWidth);
+        Editor::createAndSelectShape(layerName, "rectangle", style, position, width, height, os);
+    }
+    else if(firstWord == "ellipse"){
+        auto [layerName, x, y, width, height, fillColor, strokeColor, strokeWidth] = readShapeParameters(iss, firstWord);
+        const Point position(x, y);
+        const Style style(Color(fillColor), Color(strokeColor), strokeWidth);
+        Editor::createAndSelectShape(layerName, "ellipse", style, position, width, height, os);
     }
     else {
         throw std::invalid_argument("Unknown action: " + firstWord);
@@ -277,6 +304,13 @@ void Editor::setStyleShape(const std::string& fillColor, const std::string& stro
     Color stroke(strokeColor);
     selectedShape->setStyle(fill, stroke, strokeWidth);
     os << "Set style of shape: " << *selectedShape << " in layer: " << selectedLayerName << " to fill: " << fill << ", stroke: " << stroke << ", stroke width: " << strokeWidth << '\n';
+}
+void Editor::createAndSelectShape(const std::string& layerName, const std::string& type, const Style& style,
+                                     const Point& position, double width, double height, std::ostream& os){
+    Shape* newShape = drawing.createShape(layerName, type, style, position, width, height);
+    selectedShape = newShape;
+    selectedLayerName = layerName;
+    os << "Created and selected new shape: " << *newShape << " in layer: " << layerName << '\n';
 }
 void Editor::print(std::ostream& os) const {
     os << drawing;

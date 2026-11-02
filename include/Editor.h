@@ -35,5 +35,7 @@
         void strokeShape(const std::string& color, std::ostream& os);
         void strokeWidthShape(double width, std::ostream& os);
         void setStyleShape(const std::string& fillColor, const std::string& strokeColor, double strokeWidth, std::ostream& os);
+        void createAndSelectShape(const std::string& layerName, const std::string& type, const Style& style,
+                                     const Point& position, double width, double height, std::ostream& os);
     };
     #endif //PROIECTPOO_EDITOR_H

@@ -23,6 +23,18 @@ style #FF0000 rosu 3
 style #FF0000
 select 100 100
 
+rect Detalii 550 300 80 60 #8E24AA #4A148C 2
+move 10 10
+ellipse Fundal 100 400 120 80 #00ACC1 #006064 1
+fill #FFB300
+rect Lipsa 10 10 50 50 #FF0000 #000000 1
+rect Detalii 10 10 -5 50 #FF0000 #000000 1
+ellipse Fundal 10 10 50 50 #FF0000 negru 1
+rect Detalii 10 10
+strokewidth 3
+select 600 340
+select 160 440
+
 select 580 150
 delete
 select 580 150

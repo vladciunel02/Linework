@@ -28,6 +28,8 @@ public:
     static nlohmann::json saveToJson(const Drawing& drawing);
     void saveToFile(const std::string& filename) const;
     void saveFile(const std::string& filename, std::ostream& os) const;
+    Shape* createShape(const std::string& layerName, 
+        const std::string& type, const Style& style, const Point& position, double width, double height);
     friend std::ostream& operator<<(std::ostream& os, const Drawing& drawing);
 };
 #endif //PROIECTPOO_DRAWING_H

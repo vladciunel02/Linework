@@ -29,13 +29,9 @@ namespace{
         return Style(fillColor, strokeColor, strokeWidth);
     }
     
-    std::unique_ptr<Shape> readShape(const nlohmann::json& json) {
-        std::string type = json.at("type").get<std::string>();
-        Point position = readPoint(json.at("position"));
-        Style style = readStyle(json.at("style"));
-        double width = json.at("width").get<double>();
-        double height = json.at("height").get<double>();
-
+    
+    std::unique_ptr<Shape> makeShape(const std::string& type, const Style& style, const Point& position,
+                                      double width, double height) {
         if(type == "ellipse" || type == "Ellipse") {
             return std::make_unique<Ellipse>(style, position, width, height);
         } else if(type == "rectangle" || type == "Rectangle") {
@@ -44,6 +40,15 @@ namespace{
         else {
             throw std::invalid_argument("Unknown shape type: " + type);
         }
+    }
+    std::unique_ptr<Shape> readShape(const nlohmann::json& json) {
+        std::string type = json.at("type").get<std::string>();
+        Point position = readPoint(json.at("position"));
+        Style style = readStyle(json.at("style"));
+        double width = json.at("width").get<double>();
+        double height = json.at("height").get<double>();
+
+        return makeShape(type, style, position, width, height);
     }
     std::string colorToHex(const Color& color) {
         std::ostringstream oss;
@@ -170,6 +175,14 @@ void Drawing::saveToFile(const std::string& filename) const {
         throw std::runtime_error("Could not open file" + filename);
     }
     file << std::setw(4) << json << std::endl;
+}
+Shape* Drawing::createShape(const std::string& layerName, 
+    const std::string& type, const Style& style, const Point& position, double width, double height) {
+    Layer& layer = getLayer(layerName);
+    std::unique_ptr<Shape> shape = makeShape(type, style, position, width, height);
+    Shape* shapePtr = shape.get();
+    layer.addShape(std::move(shape));
+    return shapePtr;
 }
 std::ostream& operator<<(std::ostream& os, const Drawing& drawing) {
     os << "Drawing: " << drawing.name << "\n";
