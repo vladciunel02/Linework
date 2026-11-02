@@ -37,5 +37,6 @@
         void setStyleShape(const std::string& fillColor, const std::string& strokeColor, double strokeWidth, std::ostream& os);
         void createAndSelectShape(const std::string& layerName, const std::string& type, const Style& style,
                                      const Point& position, double width, double height, std::ostream& os);
+        void setLayerVisibility(const std::string& layerName, bool visible, std::ostream& os);
     };
     #endif //PROIECTPOO_EDITOR_H

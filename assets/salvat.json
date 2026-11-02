@@ -1,0 +1,130 @@
+{
+    "canvas": {
+        "height": 600,
+        "width": 800
+    },
+    "layers": [
+        {
+            "name": "Cer",
+            "shapes": [
+                {
+                    "height": 200.0,
+                    "position": {
+                        "x": 50.0,
+                        "y": 50.0
+                    },
+                    "style": {
+                        "fill": "#ffffff",
+                        "stroke": "#000000",
+                        "strokeWidth": 1.0
+                    },
+                    "type": "Rectangle",
+                    "width": 300.0
+                },
+                {
+                    "height": 90.0,
+                    "position": {
+                        "x": 250.0,
+                        "y": 180.0
+                    },
+                    "style": {
+                        "fill": "#fdd835",
+                        "stroke": "#f57f17",
+                        "strokeWidth": 1.5
+                    },
+                    "type": "Ellipse",
+                    "width": 150.0
+                },
+                {
+                    "height": 80.0,
+                    "position": {
+                        "x": 100.0,
+                        "y": 400.0
+                    },
+                    "style": {
+                        "fill": "#ffb300",
+                        "stroke": "#006064",
+                        "strokeWidth": 3.0
+                    },
+                    "type": "Ellipse",
+                    "width": 120.0
+                }
+            ],
+            "visible": true
+        },
+        {
+            "name": "Detalii",
+            "shapes": [
+                {
+                    "height": 100.0,
+                    "position": {
+                        "x": 700.0,
+                        "y": 450.0
+                    },
+                    "style": {
+                        "fill": "#43a047",
+                        "stroke": "#1b5e20",
+                        "strokeWidth": 0.0
+                    },
+                    "type": "Rectangle",
+                    "width": 200.0
+                },
+                {
+                    "height": 60.0,
+                    "position": {
+                        "x": 560.0,
+                        "y": 310.0
+                    },
+                    "style": {
+                        "fill": "#8e24aa",
+                        "stroke": "#4a148c",
+                        "strokeWidth": 2.0
+                    },
+                    "type": "Rectangle",
+                    "width": 80.0
+                }
+            ],
+            "visible": true
+        },
+        {
+            "name": "Schita",
+            "shapes": [],
+            "visible": false
+        },
+        {
+            "name": "Copie",
+            "shapes": [
+                {
+                    "height": 100.0,
+                    "position": {
+                        "x": 700.0,
+                        "y": 450.0
+                    },
+                    "style": {
+                        "fill": "#43a047",
+                        "stroke": "#1b5e20",
+                        "strokeWidth": 0.0
+                    },
+                    "type": "Rectangle",
+                    "width": 200.0
+                },
+                {
+                    "height": 60.0,
+                    "position": {
+                        "x": 560.0,
+                        "y": 310.0
+                    },
+                    "style": {
+                        "fill": "#8e24aa",
+                        "stroke": "#4a148c",
+                        "strokeWidth": 2.0
+                    },
+                    "type": "Rectangle",
+                    "width": 80.0
+                }
+            ],
+            "visible": true
+        }
+    ],
+    "name": "Primul meu desen"
+}

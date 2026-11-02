@@ -167,6 +167,13 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
         const Style style(Color(fillColor), Color(strokeColor), strokeWidth);
         Editor::createAndSelectShape(layerName, "ellipse", style, position, width, height, os);
     }
+    else if(firstWord == "hide" || firstWord == "show"){
+    std::string layerName;
+    if(!(iss >> layerName)) {
+        throw std::invalid_argument("Invalid layer name for " + firstWord + " action");
+    }
+    Editor::setLayerVisibility(layerName, firstWord == "show", os);
+    }
     else {
         throw std::invalid_argument("Unknown action: " + firstWord);
     }
@@ -311,6 +318,15 @@ void Editor::createAndSelectShape(const std::string& layerName, const std::strin
     selectedShape = newShape;
     selectedLayerName = layerName;
     os << "Created and selected new shape: " << *newShape << " in layer: " << layerName << '\n';
+}
+void Editor::setLayerVisibility(const std::string& layerName, bool visible, std::ostream& os){
+    drawing.getLayer(layerName).setVisible(visible);
+    // daca ascundem layerul formei selectate, golim selectia
+    if(!visible && selectedLayerName == layerName) {
+        selectedShape = nullptr;
+        selectedLayerName.clear();
+    }
+    os << (visible ? "Shown layer: " : "Hidden layer: ") << layerName << '\n';
 }
 void Editor::print(std::ostream& os) const {
     os << drawing;

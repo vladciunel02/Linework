@@ -35,6 +35,17 @@ strokewidth 3
 select 600 340
 select 160 440
 
+hide Detalii
+select 600 340
+show Detalii
+select 600 340
+select 100 100
+hide Fundal
+move 10 10
+show Fundal
+hide Lipsa
+show
+
 select 580 150
 delete
 select 580 150
@@ -44,6 +55,7 @@ select 850 500
 move 10 10
 
 add Schita
+hide Schita
 duplicate Detalii Copie
 rename Fundal Cer
 rename Cer Detalii

@@ -12,6 +12,7 @@ class Layer{
     private:
     std::string name;
     std::vector<std::unique_ptr<Shape>> shapes;
+    bool visible = true;
     
     public:
     explicit Layer(const std::string& name);
@@ -23,6 +24,8 @@ class Layer{
     void bringToFront(const Shape* shape);
     void sendToBack(const Shape* shape);
     void deleteShape(const Shape* shape);
+    bool isVisible() const { return visible; }
+    void setVisible(bool newVisible);
     const std::vector<std::unique_ptr<Shape>>& getShapes() const { return shapes; }
     Shape* getShapeUnderCursor(const Point &cursorPosition);
     friend std::ostream& operator<<(std::ostream& os, const Layer& layer);

@@ -134,6 +134,7 @@ Drawing Drawing::loadFromFile(const std::string& filename) {
     for(const auto& layerJson : json.at("layers")) {
         std::string layerName = layerJson.at("name").get<std::string>();
         Layer layer(layerName);
+        layer.setVisible(layerJson.value("visible", true)); 
         for(const auto& shapeJson : layerJson.at("shapes")) {
             std::unique_ptr<Shape> shape = readShape(shapeJson);
             layer.addShape(std::move(shape));
@@ -150,6 +151,7 @@ nlohmann::json Drawing::saveToJson(const Drawing& drawing) {
     for(const auto& layer : drawing.layers) {
         nlohmann::json layerJson;
         layerJson["name"] = layer.getName();
+        layerJson["visible"] = layer.isVisible();
         layerJson["shapes"] = nlohmann::json::array();
         
         for(const auto& shape : layer.getShapes()) {
@@ -184,6 +186,7 @@ Shape* Drawing::createShape(const std::string& layerName,
     layer.addShape(std::move(shape));
     return shapePtr;
 }
+
 std::ostream& operator<<(std::ostream& os, const Drawing& drawing) {
     os << "Drawing: " << drawing.name << "\n";
     os << drawing.canvas << "\n";

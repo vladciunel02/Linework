@@ -11,7 +11,7 @@ Layer::Layer(const std::string& name) : name(name) {
         throw std::invalid_argument("Invalid layer name");
     }
 }
-Layer::Layer(const Layer& other) : name(other.name) {
+Layer::Layer(const Layer& other) : name(other.name), visible(other.visible) {
     for(const auto& shape : other.shapes) {
         shapes.push_back(shape->clone());
     }
@@ -74,18 +74,25 @@ void Layer::addShape(std::unique_ptr<Shape> shape) {
 }
 
  std::ostream& operator<<(std::ostream& os, const Layer& layer) {
-    os << "Layer: " << layer.name << "\n";
+    os << "Layer: " << layer.name;
+    if(!layer.visible) {
+        os << " (hidden)";
+    }
+    os << "\n";
     for(const auto& shape : layer.shapes) {
         os << *shape << "\n";
     }
     return os;
 }
-
+void Layer::setVisible(bool newVisible) {
+    visible = newVisible;
+}
 Layer &Layer::operator=(const Layer& other) {
     if(this == &other) {
         return *this;
     }
     name = other.name;
+    visible = other.visible;
     shapes.clear();
     for(const auto& shape : other.shapes) {
         shapes.push_back(shape->clone());
