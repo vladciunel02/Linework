@@ -18,3 +18,10 @@ std::ostream& operator<<(std::ostream& os, const Canvas& canvas) {
     os << "Canvas(width: " << canvas.width << ", height: " << canvas.height << ")";
     return os;
 }
+void Canvas::resize(int newWidth, int newHeight) {
+    if (newWidth <= 0 || newHeight <= 0 || newWidth > maxWidth || newHeight > maxHeight) {
+        throw std::invalid_argument("Invalid canvas dimensions");
+    }
+    width = newWidth;
+    height = newHeight;
+}

@@ -47,6 +47,7 @@
         void stats(std::ostream& os) const;
         void undo(std::ostream& os);
         void redo(std::ostream& os);
+        void resizeCanvas(double newWidth, double newHeight, std::ostream& os);
 
     };
     #endif //PROIECTPOO_EDITOR_H

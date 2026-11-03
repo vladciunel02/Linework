@@ -209,6 +209,10 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
     else if(firstWord == "stats"){
         Editor::stats(os);
     }
+    else if(firstWord == "canvas"){
+        auto [newWidth, newHeight] = readCoordinates(iss, firstWord);
+        Editor::resizeCanvas(newWidth, newHeight, os);
+    }
     else {
         throw std::invalid_argument("Unknown action: " + firstWord);
     }
@@ -418,6 +422,11 @@ void Editor::redo(std::ostream& os){
     clearSelection();
     os << "Redo performed" << '\n';
 }
+void Editor::resizeCanvas(double newWidth, double newHeight, std::ostream& os) {
+    auto& canvas = drawing.getCanvas();
+    canvas.resize(newWidth, newHeight);
+    os << "Resized canvas to width: " << newWidth << ", height: " << newHeight << '\n';
+}
 void Editor::stats(std::ostream& os) const {
     const auto& layers = drawing.getLayers();
     int totalShapes = 0;
@@ -433,9 +442,9 @@ void Editor::stats(std::ostream& os) const {
             ++hiddenLayers;
         }
         for(const auto& shapePtr : layer.getShapes()) {
-            if(shapePtr->getShapeType() == "rectangle") {
+            if(shapePtr->getShapeType() == "Rectangle") {
                 ++totalRectangles;
-            } else if(shapePtr->getShapeType() == "ellipse") {
+            } else if(shapePtr->getShapeType() == "Ellipse") {
                 ++totalEllipses;
             }
         }

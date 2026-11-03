@@ -16,6 +16,7 @@ class Canvas{
     Canvas(int width, int height);
     int getWidth() const { return width; }
     int getHeight() const { return height; }
+    void resize(int newWidth, int newHeight);
     bool containsPoint (const Point& point) const;
     friend std::ostream& operator<<(std::ostream& os, const Canvas& canvas);
 

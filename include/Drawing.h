@@ -20,6 +20,7 @@ public:
     void addLayer(const Layer& layer);
     void removeLayer(const std::string& layerName);
     Layer& getLayer(const std::string& layerName);
+    Canvas& getCanvas() { return canvas; }
     Shape* getShapeUnderCursor(const Point& cursorPosition);
     Layer* getLayerUnderCursor(const Point& cursorPosition);
     const std::string& getName() const { return name; }
