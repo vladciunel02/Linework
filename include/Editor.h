@@ -50,6 +50,8 @@
         void title(const std::string& newTitle, std::ostream& os);
         void clearLayer(const std::string& layerName, std::ostream& os);
         void resizeCanvas(double newWidth, double newHeight, std::ostream& os);
+        void scaleShape(double factor, std::ostream& os);
+        void history(std::ostream& os) const;
 
     };
     #endif //PROIECTPOO_EDITOR_H

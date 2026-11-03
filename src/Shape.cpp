@@ -40,6 +40,13 @@ void Shape::setStyle(const Color& fillColor, const Color& strokeColor, double st
     Style newStyle(fillColor, strokeColor, strokeWidth);
     style = newStyle;
 }
+void Shape::scale(double factor) {
+    if (factor <= 0) {
+        throw std::invalid_argument("Scale factor must be positive.");
+    }
+    width *= factor;
+    height *= factor;
+}
 std::ostream& operator<<(std::ostream& os, const Shape& shape) {
     os << shape.getShapeType() << " at " << shape.position << " with width " << shape.width
        << ", height " << shape.height << ", style: " << shape.style;

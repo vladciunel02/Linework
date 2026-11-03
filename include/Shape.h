@@ -22,6 +22,7 @@ public:
     void setStrokeColor(const Color& color);
     void setStrokeWidth(double newWidth);
     void setStyle(const Color& fillColor, const Color& strokeColor, double strokeWidth);
+    void scale(double factor);
     virtual bool containsPoint(const Point &point) const = 0;
     virtual std::unique_ptr<Shape> clone() const = 0;
     virtual double perimeter() const = 0;

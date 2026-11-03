@@ -34,5 +34,6 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Drawing& drawing);
     void resizeCanvas(int newWidth, int newHeight);
     void setName(const std::string& newName);
+    
 };
 #endif //PROIECTPOO_DRAWING_H

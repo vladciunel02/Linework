@@ -50,12 +50,12 @@ namespace{
     }
     bool isModifyingAction(const std::string& action) {
     // comenzile care schimba desenul si pot fi anulate cu undo
-    static const std::array<std::string, 22> modifyingActions = {
+    static const std::array<std::string, 23> modifyingActions = {
         "move", "moveto", "resize", "front", "back", "delete",
         "fill", "stroke", "strokewidth", "style",
         "rect", "ellipse",
         "add", "remove", "rename", "duplicate", "hide", "show",
-        "load", "canvas", "title", "clear"
+        "load", "canvas", "title", "clear", "scale"
     };
     return std::ranges::find(modifyingActions, action) != modifyingActions.end();
 }
@@ -209,6 +209,13 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
     else if(firstWord == "stats"){
         Editor::stats(os);
     }
+    else if(firstWord == "scale"){
+        double factor = 0;
+        if(!(iss >> factor)) {
+            throw std::invalid_argument("Invalid scale factor for scale action");
+        }
+        Editor::scaleShape(factor, os);
+    }
     else if(firstWord == "canvas"){
         int newWidth = 0;
         int newHeight = 0;
@@ -223,6 +230,9 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
             throw std::invalid_argument("Invalid title for title action");
         }
         Editor::title(newTitle, os);
+    }
+    else if(firstWord == "history"){
+        Editor::history(os);
     }
     else if(firstWord == "clear"){
         std::string layerName;
@@ -419,8 +429,22 @@ void Editor::info(std::ostream& os) const {
     os << "Type: " << selectedShape->getShapeType() << '\n';
     os << "Layer: " << selectedLayerName << '\n';
 }
+void Editor::scaleShape(double factor, std::ostream& os) {
+    requireSelection();
+    selectedShape->scale(factor);
+    os << "Scaled shape: " << *selectedShape << " in layer: " << selectedLayerName << " by factor: " << factor << '\n';
+}
 void Editor::print(std::ostream& os) const {
     os << drawing;
+}
+
+void Editor::history(std::ostream& os) const {
+    if(undoStack.empty() && redoStack.empty()) {
+        os << "No history available" << '\n';
+        return;
+    }
+    os << "Undo stack: " << undoStack.size() << " entries\n";
+    os << "Redo stack: " << redoStack.size() << " entries\n";
 }
 void Editor::undo(std::ostream& os){
     if(undoStack.empty()) {
@@ -514,6 +538,8 @@ void Editor::help(std::ostream& os){
     os << "  style fillColor strokeColor strokeWidth - Set the style of the selected shape\n";
     os << "  rect layerName x y width height fillColor strokeColor strokeWidth - Create a rectangle\n";
     os << "  ellipse layerName x y width height fillColor strokeColor strokeWidth - Create an ellipse\n";
+    os << "  scale factor - Scale the selected shape by the given factor\n";
+    os << "  history - Show the history of actions (useful for undo/redo)\n";
     os << "  canvas newWidth newHeight - Resize the canvas\n";
     os << "  hide layerName - Hide a layer\n";
     os << "  show layerName - Show a layer\n";
