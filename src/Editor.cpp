@@ -50,12 +50,12 @@ namespace{
     }
     bool isModifyingAction(const std::string& action) {
     // comenzile care schimba desenul si pot fi anulate cu undo
-    static const std::array<std::string, 21> modifyingActions = {
+    static const std::array<std::string, 22> modifyingActions = {
         "move", "moveto", "resize", "front", "back", "delete",
         "fill", "stroke", "strokewidth", "style",
         "rect", "ellipse",
         "add", "remove", "rename", "duplicate", "hide", "show",
-        "load", "canvas", "title"
+        "load", "canvas", "title", "clear"
     };
     return std::ranges::find(modifyingActions, action) != modifyingActions.end();
 }
@@ -414,6 +414,8 @@ void Editor::listLayers(std::ostream& os) const {
 void Editor::info(std::ostream& os) const {
     requireSelection();
     os << "Selected shape: " << *selectedShape << '\n';
+    os << "Perimeter: " << selectedShape->perimeter() << '\n';
+    os << "Area: " << selectedShape->area() << '\n';
     os << "Type: " << selectedShape->getShapeType() << '\n';
     os << "Layer: " << selectedLayerName << '\n';
 }

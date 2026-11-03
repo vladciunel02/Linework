@@ -23,3 +23,9 @@ bool Rectangle::containsPoint(const Point &point) const {
 std::unique_ptr<Shape> Rectangle::clone() const {
     return std::make_unique<Rectangle>(*this);
 }
+double Rectangle::perimeter()  const {
+    return 2 * (getWidth() + getHeight());
+}
+double Rectangle::area() const {
+    return getWidth() * getHeight();
+}
