@@ -100,6 +100,18 @@ remove Lipsa
 select 100 100
 layers
 
+add Temp
+rect Temp 20 520 40 40 #FFFFFF #000000 1
+select 30 530
+clear Temp
+move 5 5
+select 30 530
+undo
+select 30 530
+clear Lipsa
+clear
+remove Temp
+
 title Ciorna
 title DesenFinal
 undo

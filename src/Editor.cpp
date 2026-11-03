@@ -50,12 +50,12 @@ namespace{
     }
     bool isModifyingAction(const std::string& action) {
     // comenzile care schimba desenul si pot fi anulate cu undo
-    static const std::array<std::string, 20> modifyingActions = {
+    static const std::array<std::string, 21> modifyingActions = {
         "move", "moveto", "resize", "front", "back", "delete",
         "fill", "stroke", "strokewidth", "style",
         "rect", "ellipse",
         "add", "remove", "rename", "duplicate", "hide", "show",
-        "load", "canvas"
+        "load", "canvas", "title"
     };
     return std::ranges::find(modifyingActions, action) != modifyingActions.end();
 }
@@ -223,6 +223,13 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
             throw std::invalid_argument("Invalid title for title action");
         }
         Editor::title(newTitle, os);
+    }
+    else if(firstWord == "clear"){
+        std::string layerName;
+        if(!(iss >> layerName)) {
+            throw std::invalid_argument("Invalid layer name for clear action");
+        }
+        Editor::clearLayer(layerName, os);
     }
     else {
         throw std::invalid_argument("Unknown action: " + firstWord);
@@ -441,6 +448,15 @@ void Editor::title(const std::string& newTitle, std::ostream& os){
     drawing.setName(newTitle);
     os << "Drawing title set to: " << newTitle << '\n';
 }
+void Editor::clearLayer(const std::string& layerName, std::ostream& os) {
+    Layer& layer = drawing.getLayer(layerName);
+    layer.clear();
+    if(selectedLayerName == layerName) {
+        selectedShape = nullptr;
+        selectedLayerName.clear();
+    }
+    os << "Cleared all shapes from layer: " << layerName << '\n';
+}
 void Editor::stats(std::ostream& os) const {
     const auto& layers = drawing.getLayers();
     int totalShapes = 0;
@@ -484,6 +500,7 @@ void Editor::help(std::ostream& os){
     os << "  duplicate existingLayer newLayer - Duplicate a layer\n";
     os << "  rename oldName newName - Rename a layer\n";
     os << "  remove layerName - Remove a layer\n";
+    os << "  clear layerName - Clear all shapes from a layer\n";
     os << "  add layerName - Add a new layer\n";
     os << "  delete - Delete the selected shape\n";
     os << "  resize newWidth newHeight - Resize the selected shape\n";

@@ -87,6 +87,10 @@ void Layer::addShape(std::unique_ptr<Shape> shape) {
 void Layer::setVisible(bool newVisible) {
     visible = newVisible;
 }
+//golim layer ul
+void Layer::clear() {
+    shapes.clear();
+}
 Layer &Layer::operator=(const Layer& other) {
     if(this == &other) {
         return *this;
