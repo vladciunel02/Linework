@@ -44,6 +44,7 @@
         void listLayers(std::ostream& os) const;
         void info(std::ostream& os) const;
         static void help(std::ostream& os);
+        void stats(std::ostream& os) const;
         void undo(std::ostream& os);
         void redo(std::ostream& os);
 

@@ -206,6 +206,9 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
     else if(firstWord == "help"){
         Editor::help(os);
     }
+    else if(firstWord == "stats"){
+        Editor::stats(os);
+    }
     else {
         throw std::invalid_argument("Unknown action: " + firstWord);
     }
@@ -415,8 +418,40 @@ void Editor::redo(std::ostream& os){
     clearSelection();
     os << "Redo performed" << '\n';
 }
+void Editor::stats(std::ostream& os) const {
+    const auto& layers = drawing.getLayers();
+    int totalShapes = 0;
+    int totalRectangles = 0;
+    int totalEllipses = 0;
+    int shownLayers = 0;
+    int hiddenLayers = 0;
+    for(const auto& layer : layers) {
+        totalShapes += layer.getShapes().size();
+        if(layer.isVisible()) {
+            ++shownLayers;
+        } else {
+            ++hiddenLayers;
+        }
+        for(const auto& shapePtr : layer.getShapes()) {
+            if(shapePtr->getShapeType() == "rectangle") {
+                ++totalRectangles;
+            } else if(shapePtr->getShapeType() == "ellipse") {
+                ++totalEllipses;
+            }
+        }
+    }
+    os << "Drawing: " << drawing.getName() << '\n';
+    os << "Total layers: " << layers.size() << '\n';
+    os << "Shown layers: " << shownLayers << '\n';
+    os << "Hidden layers: " << hiddenLayers << '\n';
+    os << "Total shapes: " << totalShapes << '\n';
+    os << "Total rectangles: " << totalRectangles << '\n';
+    os << "Total ellipses: " << totalEllipses << '\n';
+}
 void Editor::help(std::ostream& os){
     os << "Available commands:\n";
+    os<< "  help - Show this help message\n";
+    os<< " stats - Show statistics about the drawing\n";
     os << "  print - Print the current drawing\n";
     os << "  select x y - Select a shape at the given coordinates\n";
     os << "  move dx dy - Move the selected shape by the given amounts\n";
