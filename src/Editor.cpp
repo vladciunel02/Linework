@@ -490,6 +490,7 @@ void Editor::stats(std::ostream& os) const {
     int totalEllipses = 0;
     int shownLayers = 0;
     int hiddenLayers = 0;
+    double totalArea = 0.0;
     for(const auto& layer : layers) {
         totalShapes += layer.getShapes().size();
         if(layer.isVisible()) {
@@ -498,6 +499,7 @@ void Editor::stats(std::ostream& os) const {
             ++hiddenLayers;
         }
         for(const auto& shapePtr : layer.getShapes()) {
+            totalArea += shapePtr->area();
             if(shapePtr->getShapeType() == "Rectangle") {
                 ++totalRectangles;
             } else if(shapePtr->getShapeType() == "Ellipse") {
@@ -510,6 +512,7 @@ void Editor::stats(std::ostream& os) const {
     os << "Shown layers: " << shownLayers << '\n';
     os << "Hidden layers: " << hiddenLayers << '\n';
     os << "Total shapes: " << totalShapes << '\n';
+    os << "Total area of all shapes: " << totalArea << '\n';
     os << "Total rectangles: " << totalRectangles << '\n';
     os << "Total ellipses: " << totalEllipses << '\n';
 }
