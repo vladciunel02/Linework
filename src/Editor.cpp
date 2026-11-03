@@ -217,6 +217,13 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
         }
         Editor::resizeCanvas(newWidth, newHeight, os);
     }
+    else if(firstWord == "title"){
+        std::string newTitle;
+        if(!(iss >> newTitle)) {
+            throw std::invalid_argument("Invalid title for title action");
+        }
+        Editor::title(newTitle, os);
+    }
     else {
         throw std::invalid_argument("Unknown action: " + firstWord);
     }
@@ -430,6 +437,10 @@ void Editor::resizeCanvas(double newWidth, double newHeight, std::ostream& os) {
     drawing.resizeCanvas(newWidth, newHeight);
     os << "Resized canvas to width: " << newWidth << ", height: " << newHeight << '\n';
 }
+void Editor::title(const std::string& newTitle, std::ostream& os){
+    drawing.setName(newTitle);
+    os << "Drawing title set to: " << newTitle << '\n';
+}
 void Editor::stats(std::ostream& os) const {
     const auto& layers = drawing.getLayers();
     int totalShapes = 0;
@@ -487,6 +498,7 @@ void Editor::help(std::ostream& os){
     os << "  canvas newWidth newHeight - Resize the canvas\n";
     os << "  hide layerName - Hide a layer\n";
     os << "  show layerName - Show a layer\n";
+    os << "  title newTitle - Set the title of the drawing\n";
     os << "  layers - List all layers\n";
     os << "  info - Show information about the selected shape\n";
     os << "  undo - Undo the last action\n";

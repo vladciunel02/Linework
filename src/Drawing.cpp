@@ -190,6 +190,9 @@ Shape* Drawing::createShape(const std::string& layerName,
     return shapePtr;
 }
 void Drawing::resizeCanvas(int newWidth, int newHeight) {
+    if(newWidth <= 0 || newHeight <= 0) {
+        throw std::invalid_argument("Canvas dimensions must be positive");
+    }
     for(const auto& layer : layers) {
         for(const auto& shape : layer.getShapes()) {
             const double right = shape->getPosition().getX() + shape->getWidth();
@@ -201,7 +204,12 @@ void Drawing::resizeCanvas(int newWidth, int newHeight) {
     }
     canvas.resize(newWidth, newHeight);
 }
-
+void Drawing::setName(const std::string& newName) {
+    if(!isValidName(newName)) {
+        throw std::invalid_argument("Invalid drawing name");
+    }
+    name = newName;
+}
 std::ostream& operator<<(std::ostream& os, const Drawing& drawing) {
     os << "Drawing: " << drawing.name << "\n";
     os << drawing.canvas << "\n";
