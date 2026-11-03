@@ -12,7 +12,10 @@
         Drawing drawing;
         Shape* selectedShape = nullptr;
         std::string selectedLayerName; //tinem numele si nu layer ul, pot aparea probleme de memorie
+        std::vector<Drawing> undoStack;
+        std::vector<Drawing> redoStack;
         void requireSelection() const;
+        void clearSelection();
     public:
         explicit Editor(const Drawing& drawing);
         void executeAction(const std::string& action, std::ostream& os);
@@ -40,5 +43,8 @@
         void setLayerVisibility(const std::string& layerName, bool visible, std::ostream& os);
         void listLayers(std::ostream& os) const;
         void info(std::ostream& os) const;
+        void undo(std::ostream& os);
+        void redo(std::ostream& os);
+
     };
     #endif //PROIECTPOO_EDITOR_H

@@ -1,5 +1,7 @@
 print
 layers
+undo
+redo
 
 select 300 200
 select 100 100
@@ -47,6 +49,28 @@ move 10 10
 show Fundal
 hide Lipsa
 show
+
+select 750 500
+move 20 0
+fill #FF0000
+undo
+select 750 500
+undo
+select 710 460
+redo
+select 710 460
+undo
+select 750 500
+fill #0000FF
+redo
+select 10 590
+move 10 10
+undo
+select 750 500
+
+rect Detalii 600 500 50 50 #000000 #000000 1
+undo
+select 620 520
 
 select 580 150
 delete

@@ -48,6 +48,17 @@ namespace{
         }
         return std::make_tuple(layerName, x, y, width, height, fillColor, strokeColor, strokeWidth);
     }
+    bool isModifyingAction(const std::string& action) {
+    // comenzile care schimba desenul si pot fi anulate cu undo
+    static const std::array<std::string, 19> modifyingActions = {
+        "move", "moveto", "resize", "front", "back", "delete",
+        "fill", "stroke", "strokewidth", "style",
+        "rect", "ellipse",
+        "add", "remove", "rename", "duplicate", "hide", "show",
+        "load"
+    };
+    return std::ranges::find(modifyingActions, action) != modifyingActions.end();
+}
 }
 Editor::Editor(const Drawing& drawing) : drawing(drawing){}
 
@@ -56,6 +67,10 @@ void Editor::requireSelection() const {
         throw std::invalid_argument("No shape selected");
     }
 }
+void Editor::clearSelection() {
+    selectedShape = nullptr;
+    selectedLayerName.clear();
+}
 void Editor::executeAction(const std::string& action, std::ostream& os){
     std::istringstream iss(action);
     std::string firstWord;
@@ -63,6 +78,8 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
     if(firstWord.empty()){
         throw std::invalid_argument("Action cannot be empty");
     }
+    const bool modifies = isModifyingAction(firstWord);
+    const Drawing beforeAction = drawing; // salvam starea curenta a desenului
     if(firstWord == "print"){
         Editor::print(os); // se poate si fara prefix ca suntem in scope-ul clasei
     }
@@ -180,8 +197,18 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
     else if(firstWord == "info"){
     Editor::info(os);
     }
+    else if(firstWord == "undo"){
+        Editor::undo(os);
+    }
+    else if(firstWord == "redo"){
+        Editor::redo(os);
+    }
     else {
         throw std::invalid_argument("Unknown action: " + firstWord);
+    }
+    if(modifies) {
+        undoStack.push_back(beforeAction);
+        redoStack.clear(); 
     }
 
 }
@@ -364,4 +391,24 @@ void Editor::info(std::ostream& os) const {
 }
 void Editor::print(std::ostream& os) const {
     os << drawing;
+}
+void Editor::undo(std::ostream& os){
+    if(undoStack.empty()) {
+        throw std::invalid_argument("Nothing to undo");
+    }
+    redoStack.push_back(drawing); // salvam starea curenta pentru redo
+    drawing = undoStack.back(); // revenim la starea anterioara
+    undoStack.pop_back();
+    clearSelection();
+    os << "Undo performed" << '\n';
+}
+void Editor::redo(std::ostream& os){
+    if(redoStack.empty()) {
+        throw std::invalid_argument("Nothing to redo");
+    }
+    undoStack.push_back(drawing); // salvam starea curenta pentru undo
+    drawing = redoStack.back(); 
+    redoStack.pop_back();
+    clearSelection();
+    os << "Redo performed" << '\n';
 }
