@@ -203,6 +203,9 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
     else if(firstWord == "redo"){
         Editor::redo(os);
     }
+    else if(firstWord == "help"){
+        Editor::help(os);
+    }
     else {
         throw std::invalid_argument("Unknown action: " + firstWord);
     }
@@ -411,4 +414,33 @@ void Editor::redo(std::ostream& os){
     redoStack.pop_back();
     clearSelection();
     os << "Redo performed" << '\n';
+}
+void Editor::help(std::ostream& os) const {
+    os << "Available commands:\n";
+    os << "  print - Print the current drawing\n";
+    os << "  select x y - Select a shape at the given coordinates\n";
+    os << "  move dx dy - Move the selected shape by the given amounts\n";
+    os << "  moveto x y - Move the selected shape to the given coordinates\n";
+    os << "  front - Bring the selected shape to the front\n";
+    os << "  back - Send the selected shape to the back\n";
+    os << "  duplicate existingLayer newLayer - Duplicate a layer\n";
+    os << "  rename oldName newName - Rename a layer\n";
+    os << "  remove layerName - Remove a layer\n";
+    os << "  add layerName - Add a new layer\n";
+    os << "  delete - Delete the selected shape\n";
+    os << "  resize newWidth newHeight - Resize the selected shape\n";
+    os << "  save filename - Save the current drawing to a file\n";
+    os << "  load filename - Load a drawing from a file\n";
+    os << "  fill color - Fill the selected shape with the given color\n";
+    os << "  stroke color - Stroke the selected shape with the given color\n";
+    os << "  strokewidth width - Set the stroke width of the selected shape\n";
+    os << "  style fillColor strokeColor strokeWidth - Set the style of the selected shape\n";
+    os << "  rect layerName x y width height fillColor strokeColor strokeWidth - Create a rectangle\n";
+    os << "  ellipse layerName x y width height fillColor strokeColor strokeWidth - Create an ellipse\n";
+    os << "  hide layerName - Hide a layer\n";
+    os << "  show layerName - Show a layer\n";
+    os << "  layers - List all layers\n";
+    os << "  info - Show information about the selected shape\n";
+    os << "  undo - Undo the last action\n";
+    os << "  redo - Redo the last undone action\n";
 }

@@ -43,6 +43,7 @@
         void setLayerVisibility(const std::string& layerName, bool visible, std::ostream& os);
         void listLayers(std::ostream& os) const;
         void info(std::ostream& os) const;
+        void help(std::ostream& os) const;
         void undo(std::ostream& os);
         void redo(std::ostream& os);
 

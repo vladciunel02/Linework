@@ -10,7 +10,7 @@ Style::Style(const Color &fillColor, const Color &strokeColor, double strokeWidt
     : fillColor(fillColor), strokeColor(strokeColor), strokeWidth(strokeWidth) {
         //cheking the strokeWidth value ( to also pass NaN < 0)
         if(strokeWidth < 0 || std::isnan(strokeWidth)) {
-            throw std::invalid_argument("Sroke width must be a non-negative number.");
+            throw std::invalid_argument("Stroke width must be a non-negative number.");
         }
     }
 
