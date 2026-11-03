@@ -415,7 +415,7 @@ void Editor::redo(std::ostream& os){
     clearSelection();
     os << "Redo performed" << '\n';
 }
-void Editor::help(std::ostream& os) const {
+void Editor::help(std::ostream& os){
     os << "Available commands:\n";
     os << "  print - Print the current drawing\n";
     os << "  select x y - Select a shape at the given coordinates\n";
