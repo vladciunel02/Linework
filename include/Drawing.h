@@ -20,7 +20,6 @@ public:
     void addLayer(const Layer& layer);
     void removeLayer(const std::string& layerName);
     Layer& getLayer(const std::string& layerName);
-    Canvas& getCanvas() { return canvas; }
     Shape* getShapeUnderCursor(const Point& cursorPosition);
     Layer* getLayerUnderCursor(const Point& cursorPosition);
     const std::string& getName() const { return name; }
@@ -33,5 +32,6 @@ public:
     Shape* createShape(const std::string& layerName, 
         const std::string& type, const Style& style, const Point& position, double width, double height);
     friend std::ostream& operator<<(std::ostream& os, const Drawing& drawing);
+    void resizeCanvas(int newWidth, int newHeight);
 };
 #endif //PROIECTPOO_DRAWING_H

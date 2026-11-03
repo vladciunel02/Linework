@@ -50,12 +50,12 @@ namespace{
     }
     bool isModifyingAction(const std::string& action) {
     // comenzile care schimba desenul si pot fi anulate cu undo
-    static const std::array<std::string, 19> modifyingActions = {
+    static const std::array<std::string, 20> modifyingActions = {
         "move", "moveto", "resize", "front", "back", "delete",
         "fill", "stroke", "strokewidth", "style",
         "rect", "ellipse",
         "add", "remove", "rename", "duplicate", "hide", "show",
-        "load"
+        "load", "canvas"
     };
     return std::ranges::find(modifyingActions, action) != modifyingActions.end();
 }
@@ -210,7 +210,11 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
         Editor::stats(os);
     }
     else if(firstWord == "canvas"){
-        auto [newWidth, newHeight] = readCoordinates(iss, firstWord);
+        int newWidth = 0;
+        int newHeight = 0;
+        if(!(iss >> newWidth >> newHeight)) {
+            throw std::invalid_argument("Invalid dimensions for canvas action");
+        }
         Editor::resizeCanvas(newWidth, newHeight, os);
     }
     else {
@@ -423,8 +427,7 @@ void Editor::redo(std::ostream& os){
     os << "Redo performed" << '\n';
 }
 void Editor::resizeCanvas(double newWidth, double newHeight, std::ostream& os) {
-    auto& canvas = drawing.getCanvas();
-    canvas.resize(newWidth, newHeight);
+    drawing.resizeCanvas(newWidth, newHeight);
     os << "Resized canvas to width: " << newWidth << ", height: " << newHeight << '\n';
 }
 void Editor::stats(std::ostream& os) const {
@@ -481,6 +484,7 @@ void Editor::help(std::ostream& os){
     os << "  style fillColor strokeColor strokeWidth - Set the style of the selected shape\n";
     os << "  rect layerName x y width height fillColor strokeColor strokeWidth - Create a rectangle\n";
     os << "  ellipse layerName x y width height fillColor strokeColor strokeWidth - Create an ellipse\n";
+    os << "  canvas newWidth newHeight - Resize the canvas\n";
     os << "  hide layerName - Hide a layer\n";
     os << "  show layerName - Show a layer\n";
     os << "  layers - List all layers\n";

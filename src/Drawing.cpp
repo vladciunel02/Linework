@@ -189,6 +189,18 @@ Shape* Drawing::createShape(const std::string& layerName,
     layer.addShape(std::move(shape));
     return shapePtr;
 }
+void Drawing::resizeCanvas(int newWidth, int newHeight) {
+    for(const auto& layer : layers) {
+        for(const auto& shape : layer.getShapes()) {
+            const double right = shape->getPosition().getX() + shape->getWidth();
+            const double bottom = shape->getPosition().getY() + shape->getHeight();
+            if(right > newWidth || bottom > newHeight) {
+                throw std::invalid_argument("Canvas too small: a shape in layer " + layer.getName() + " would be outside");
+            }
+        }
+    }
+    canvas.resize(newWidth, newHeight);
+}
 
 std::ostream& operator<<(std::ostream& os, const Drawing& drawing) {
     os << "Drawing: " << drawing.name << "\n";

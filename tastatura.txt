@@ -1,6 +1,7 @@
 help
 print
 layers
+stats
 undo
 redo
 
@@ -68,11 +69,18 @@ select 10 590
 move 10 10
 undo
 select 750 500
-stats
 
 rect Detalii 600 500 50 50 #000000 #000000 1
 undo
 select 620 520
+
+canvas 1000 700
+canvas 400 300
+canvas 0 100
+canvas mare 100
+print
+undo
+print
 
 select 580 150
 delete
@@ -91,6 +99,7 @@ rename Cer Detalii
 remove Lipsa
 select 100 100
 layers
+stats
 
 save assets/salvat.json
 save folder_inexistent/salvat.json
