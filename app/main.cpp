@@ -14,42 +14,6 @@
 
 int main() {
     
-
-
-    //declaram niste puncte
-    Point p1(1, 2);
-    Point p2(3, 4);
-    //le afisam in consola valoriile sa vedem daca merge
-    std::cout << p1 << "\n";
-    std::cout << p2 << "\n";
-
-    //apelam si niste metode
-    double dist = p1.distanceTo(p2);
-
-    //afisam distanta
-    std::cout<<dist<<"\n";
-
-    //mutam si un punct
-    Point p3 = p1.moveBy(1, 2);
-
-    //il afisam
-    std::cout << p3 << "\n";
-
-    //declaram niste culori
-    Color c1("#00ff00"); //culoare verde
-    Color c2("#ff0000"); //culoare rosie
-    Color c3("#0000ff"); //culoare albastra
-    //afisam culorile
-    std::cout << c1 << "\n";
-    std::cout << c2 << "\n";
-    std::cout << c3 << "\n";
-
-
-    //declaram un stil
-    Style s1(c1, c2, 2.5); //fillColor = verde, strokeColor = rosie, strokeWidth = 2.5
-    //afisam stilul
-    std::cout << s1 << "\n";
-
     try {
         const Drawing drawing = Drawing::loadFromFile("assets/drawing.json");
         Editor editor{drawing};

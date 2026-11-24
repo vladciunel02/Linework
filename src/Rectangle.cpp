@@ -3,6 +3,7 @@
 //
 #include "Rectangle.h"
 #include "Point.h"
+#include "JsonHelper.h"
 Rectangle::Rectangle(const Style &style, const Point &position, double width, double height)
     : Shape(style, position, width, height) {}
 
@@ -29,3 +30,7 @@ double Rectangle::perimeter()  const {
 double Rectangle::area() const {
     return getWidth() * getHeight();
 }
+std::unique_ptr<Rectangle> Rectangle::fromJson(const nlohmann::json &json) {
+    return readBoxShape<Rectangle>(json);
+}
+

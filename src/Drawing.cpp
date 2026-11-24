@@ -12,24 +12,10 @@
 #include "Shape.h"
 #include "Ellipse.h"
 #include "Rectangle.h"
+#include "internal/JsonHelper.h"
+#include "ShapeFactory.h"
 
-namespace{
-    Point readPoint(const nlohmann::json& json) { //cautam in json inauntru shape acolo unde e position
-        double x = json.at("x").get<double>();
-        double y = json.at("y").get<double>();
-        return Point(x, y);
-    }
-    Color readColor(const nlohmann::json& json) {
-        return Color(json.get<std::string>());
-    }
-    Style readStyle(const nlohmann::json& json){ //cautam in json inuntru shape acolo unde e style
-        Color fillColor = readColor(json.at("fill"));
-        Color strokeColor = readColor(json.at("stroke"));
-        double strokeWidth = json.at("strokeWidth").get<double>();
-        return Style(fillColor, strokeColor, strokeWidth);
-    }
-    
-    
+namespace{    
     std::unique_ptr<Shape> makeShape(const std::string& type, const Style& style, const Point& position,
                                       double width, double height) {
         if(type == "ellipse" || type == "Ellipse") {
@@ -139,7 +125,7 @@ Drawing Drawing::loadFromFile(const std::string& filename) {
         Layer layer(layerName);
         layer.setVisible(layerJson.value("visible", true)); 
         for(const auto& shapeJson : layerJson.at("shapes")) {
-            std::unique_ptr<Shape> shape = readShape(shapeJson);
+            std::unique_ptr<Shape> shape = ShapeFactory::createShape(shapeJson);
             layer.addShape(std::move(shape));
         }
         drawing.addLayer(layer);    
