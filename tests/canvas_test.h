@@ -5,8 +5,8 @@
 #ifndef PROIECTPOO_CANVAS_TEST_H
 #define PROIECTPOO_CANVAS_TEST_H
 
-void testConstructorValid();
-void testCanvasContainsPointOutside();
+void testCanvasConstructor();
+void testCanvasResize();
 
 
 #endif //PROIECTPOO_CANVAS_TEST_H

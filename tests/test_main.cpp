@@ -59,14 +59,15 @@ int main()
 
 
     // testing the canvas methods in mainTest
-    testConstructorValid();
-    testCanvasContainsPointOutside();
+    testCanvasConstructor();
+    testCanvasResize();
 
     //testing drawing methods
     testDrawingLoadFromFile();
     testDrawingShapeUnderCursor();
     testDrawingLayers();
     testDrawingInvalid();
+    testDrawingResizeCanvas();
 
     //testing editor methods
     testEditorSelect();

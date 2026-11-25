@@ -2,6 +2,7 @@
 #include <cmath>
 #include "Ellipse.h"
 #include "Point.h"
+#include "JsonHelper.h"
 
 Ellipse::Ellipse(const Style &style, const Point &position, double width, double height)
     : Shape(style, position, width, height) {}
@@ -28,4 +29,7 @@ double Ellipse::perimeter() const {
     double a = getWidth() / 2;  // semi-major axis
     double b = getHeight() / 2; // semi-minor axis
     return std::numbers::pi * (3 * (a + b) - std::sqrt((3 * a + b) * (a + 3 * b)));
+}
+std::unique_ptr<Ellipse> Ellipse::fromJson(const nlohmann::json &json) {
+    return readBoxShape<Ellipse>(json);
 }

@@ -83,9 +83,6 @@ Shape* Drawing::getShapeUnderCursor(const Point& cursorPosition){
     return nullptr;
 }
 Layer* Drawing::getLayerUnderCursor(const Point& cursorPosition){
-    if(!canvas.containsPoint(cursorPosition)){
-        return nullptr;
-    }
     for(auto &layer : layers | std::views::reverse) { // e ca cel cu iterator doar ca mai usor de citit
         if(!layer.isVisible()) {
             continue; 
@@ -178,15 +175,6 @@ Shape* Drawing::createShape(const std::string& layerName,
 void Drawing::resizeCanvas(int newWidth, int newHeight) {
     if(newWidth <= 0 || newHeight <= 0) {
         throw std::invalid_argument("Canvas dimensions must be positive");
-    }
-    for(const auto& layer : layers) {
-        for(const auto& shape : layer.getShapes()) {
-            const double right = shape->getPosition().getX() + shape->getWidth();
-            const double bottom = shape->getPosition().getY() + shape->getHeight();
-            if(right > newWidth || bottom > newHeight) {
-                throw std::invalid_argument("Canvas too small: a shape in layer " + layer.getName() + " would be outside");
-            }
-        }
     }
     canvas.resize(newWidth, newHeight);
 }

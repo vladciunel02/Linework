@@ -1,5 +1,7 @@
 #undef NDEBUG
 #include <cassert>
+#include <cstdio>
+#include <fstream>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -39,11 +41,15 @@ void testDrawingShapeUnderCursor() {
     const Shape* fromDetalii = detalii.getShapeUnderCursor(Point{580, 150});
     assert(onDetalii != nullptr && onDetalii == fromDetalii && "the drawing also finds shapes on the second layer");
 
-    // (850, 500): dreptunghiul verde iese din panza; layer-ul il gaseste, desenul nu
+    // (850, 500): dreptunghiul verde iese din panza, dar formele pot sta si in afara ei
     const Shape* outsideFromLayer = detalii.getShapeUnderCursor(Point{850, 500});
     const Shape* outsideFromDrawing = drawing.getShapeUnderCursor(Point{850, 500});
     assert(outsideFromLayer != nullptr && "the green rectangle really covers that point");
-    assert(outsideFromDrawing == nullptr && "a click outside the canvas selects nothing");
+    assert(outsideFromDrawing == outsideFromLayer && "a shape can be selected where it sticks out of the canvas");
+
+    // (2000, 2000): departe de panza si de orice forma
+    const Shape* farAway = drawing.getShapeUnderCursor(Point{2000, 2000});
+    assert(farAway == nullptr && "a click far from every shape selects nothing");
 
     // (600, 400): panza goala
     const Shape* empty = drawing.getShapeUnderCursor(Point{600, 400});
@@ -102,4 +108,52 @@ void testDrawingInvalid() {
         threw = true;
     }
     assert(threw && "a missing file is reported with runtime_error");
+
+    // un tip de forma pe care ShapeFactory nu il cunoaste
+    const std::string unknownTypeFile = "unknown_type_test.json";
+    {
+        std::ofstream file(unknownTypeFile);
+        file << R"({"name": "Test", "canvas": {"width": 100, "height": 100},
+                   "layers": [{"name": "A", "shapes": [{"type": "Triangle"}]}]})";
+    }
+    threw = false;
+    try {
+        const Drawing unknown = Drawing::loadFromFile(unknownTypeFile);
+        (void) unknown;
+    } catch (const std::invalid_argument&) {
+        threw = true;
+    }
+    std::remove(unknownTypeFile.c_str());
+    assert(threw && "an unknown shape type in the file is rejected");
+}
+
+void testDrawingResizeCanvas() {
+    Drawing drawing = Drawing::loadFromFile("assets/drawing.json");
+
+    // panza se poate micsora chiar daca unele forme raman in afara ei
+    drawing.resizeCanvas(400, 300);
+    std::ostringstream out;
+    out << drawing;
+    assert(out.str().find("Canvas(width: 400, height: 300)") != std::string::npos && "the canvas shrinks even with shapes outside it");
+
+    // formele raman neatinse si pot fi selectate in continuare
+    const Shape* green = drawing.getShapeUnderCursor(Point{850, 500});
+    assert(green != nullptr && "shapes left outside the canvas are still there");
+
+    // dimensiunile invalide sunt refuzate in continuare
+    bool threw = false;
+    try {
+        drawing.resizeCanvas(0, 100);
+    } catch (const std::invalid_argument&) {
+        threw = true;
+    }
+    assert(threw && "the canvas needs positive dimensions");
+
+    threw = false;
+    try {
+        drawing.resizeCanvas(Canvas::maxWidth + 1, 100);
+    } catch (const std::invalid_argument&) {
+        threw = true;
+    }
+    assert(threw && "the canvas cannot be larger than the maximum size");
 }
