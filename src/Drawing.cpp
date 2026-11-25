@@ -27,15 +27,6 @@ namespace{
             throw std::invalid_argument("Unknown shape type: " + type);
         }
     }
-    std::unique_ptr<Shape> readShape(const nlohmann::json& json) {
-        std::string type = json.at("type").get<std::string>();
-        Point position = readPoint(json.at("position"));
-        Style style = readStyle(json.at("style"));
-        double width = json.at("width").get<double>();
-        double height = json.at("height").get<double>();
-
-        return makeShape(type, style, position, width, height);
-    }
     std::string colorToHex(const Color& color) {
         std::ostringstream oss;
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(color.getR())

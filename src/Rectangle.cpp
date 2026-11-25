@@ -3,7 +3,7 @@
 //
 #include "Rectangle.h"
 #include "Point.h"
-#include "JsonHelper.h"
+#include "internal/JsonHelper.h"
 Rectangle::Rectangle(const Style &style, const Point &position, double width, double height)
     : Shape(style, position, width, height) {}
 
