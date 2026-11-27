@@ -5,7 +5,9 @@
 #include "internal/JsonHelper.h"
 
 Ellipse::Ellipse(const Style &style, const Point &position, double width, double height)
-    : Shape(style, position, width, height) {}
+    : Shape(style, position, width, height) {
+    validateSize(width, height);
+}
 
 
 bool Ellipse::containsPoint(const Point &point) const {

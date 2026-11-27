@@ -5,7 +5,9 @@
 #include "Point.h"
 #include "internal/JsonHelper.h"
 Rectangle::Rectangle(const Style &style, const Point &position, double width, double height)
-    : Shape(style, position, width, height) {}
+    : Shape(style, position, width, height) {
+        validateSize(width, height);
+    }
 
 bool Rectangle::containsPoint(const Point &point) const {
     double x = point.getX();

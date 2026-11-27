@@ -14,6 +14,7 @@ private:
     Point position;
     double width;
     double height;
+    static void checkFiniteSize(double newWidth, double newHeight);
 public:
     void moveTo(const Point &newPosition);
     void moveBy(double xOffset, double yOffset);
@@ -34,6 +35,7 @@ public:
     Shape(const Style &style, const Point &position, double width, double height);
     virtual std::string getShapeType() const = 0;
     Point getPosition() const { return position; }
+    virtual void validateSize(double newWidth, double newHeight);
     virtual ~Shape() = default;
     
 

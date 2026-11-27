@@ -3,14 +3,26 @@
 //
 #include "Shape.h"
 #include <stdexcept>
+#include <cmath>
 
 Shape::Shape(const Style &style, const Point &position, double width, double height)
     : style{style}, position{position}, width{width}, height{height} {
-        if (width <= 0 || height <= 0) {
-            throw std::invalid_argument("Width and height must be positive.");
-        }
+        checkFiniteSize(width, height);
 
     }
+void Shape::validateSize (double newWidth, double newHeight) {
+    if (width <= 0 || height <= 0) {
+        throw std::invalid_argument("Width and height must be positive.");
+    }
+}
+void Shape::checkFiniteSize(double newWidth, double newHeight) {
+    if (!std::isfinite(newWidth) || !std::isfinite(newHeight)) {
+        throw std::invalid_argument("Width and height must be finite numbers.");
+    }
+    if(newWidth < 0 || newHeight < 0) {
+        throw std::invalid_argument("Width and height must be positive.");
+    }
+}
 void Shape::moveTo(const Point &newPosition) {
     position = newPosition;
 }
@@ -18,9 +30,8 @@ void Shape::moveBy(double xOffset, double yOffset) {
     position = position.moveBy(xOffset, yOffset);
 }
 void Shape::resize(double newWidth, double newHeight) {
-    if (newWidth <= 0 || newHeight <= 0) {
-        throw std::invalid_argument("Width and height must be positive.");
-    }
+    checkFiniteSize(newWidth, newHeight);
+    validateSize(newWidth, newHeight);
     width = newWidth;
     height = newHeight;
 }
@@ -44,8 +55,7 @@ void Shape::scale(double factor) {
     if (factor <= 0) {
         throw std::invalid_argument("Scale factor must be positive.");
     }
-    width *= factor;
-    height *= factor;
+    resize(width * factor, height * factor);
 }
 std::ostream& operator<<(std::ostream& os, const Shape& shape) {
     os << shape.getShapeType() << " at " << shape.position << " with width " << shape.width
