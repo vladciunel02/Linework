@@ -16,27 +16,27 @@ namespace {
 
 void testRectangleContainsPoint() {
     const Rectangle r{makeStyle(), Point{100, 50}, 200, 80};
-    assert(r.containsPoint(Point{150, 90}) && "point inside rectangle");
-    assert(!r.containsPoint(Point{350, 90}) && "point right of rectangle");
-    assert(r.containsPoint(Point{300, 130}) && "bottom-right corner counts as inside");
+    assert(r.containsPoint(Point{150, 90}, 0.0) && "point inside rectangle");
+    assert(!r.containsPoint(Point{350, 90}, 0.0) && "point right of rectangle");
+    assert(r.containsPoint(Point{300, 130}, 0.0) && "bottom-right corner counts as inside");
 }
 
 void testEllipseContainsPoint() {
     const Ellipse e{makeStyle(), Point{0, 0}, 100, 100};
-    assert(e.containsPoint(Point{50, 50}) && "center inside ellipse");
-    assert(e.containsPoint(Point{100, 50}) && "point on the edge inside ellipse");
-    assert(!e.containsPoint(Point{2, 2}) && "bounding box corner outside ellipse");
+    assert(e.containsPoint(Point{50, 50}, 0.0) && "center inside ellipse");
+    assert(e.containsPoint(Point{100, 50}, 0.0) && "point on the edge inside ellipse");
+    assert(!e.containsPoint(Point{2, 2}, 0.0) && "bounding box corner outside ellipse");
 }
 
 void testShapeMove() {
     Rectangle r{makeStyle(), Point{0, 0}, 10, 10};
 
     r.moveBy(100, 0);
-    assert(!r.containsPoint(Point{5, 5}) && "old area is empty after moveBy");
-    assert(r.containsPoint(Point{105, 5}) && "shape is at the new place after moveBy");
+    assert(!r.containsPoint(Point{5, 5}, 0.0) && "old area is empty after moveBy");
+    assert(r.containsPoint(Point{105, 5}, 0.0) && "shape is at the new place after moveBy");
 
     r.moveTo(Point{-50, -50});
-    assert(r.containsPoint(Point{-45, -45}) && "moveTo puts the shape at the given position");
+    assert(r.containsPoint(Point{-45, -45}, 0.0) && "moveTo puts the shape at the given position");
 }
 
 void testShapePrint() {

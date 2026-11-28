@@ -86,7 +86,7 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
     else if(firstWord == "select"){
         auto [x, y] = readCoordinates(iss, firstWord);
         const Point cursorPosition(x, y);
-        Editor::select(cursorPosition, os);
+        Editor::select(cursorPosition, 0.0, os);
     }
     else if(firstWord == "move"){
         auto [x, y] = readCoordinates(iss, firstWord);
@@ -251,15 +251,15 @@ void Editor::executeAction(const std::string& action, std::ostream& os){
 
 }
 
-void Editor::select(const Point& cursorPosition, std::ostream& os) {
-    Layer* currentLayer = drawing.getLayerUnderCursor(cursorPosition);
+void Editor::select(const Point& cursorPosition, double tolerance, std::ostream& os) {
+    Layer* currentLayer = drawing.getLayerUnderCursor(cursorPosition, tolerance);
     if(!currentLayer) {
         selectedShape = nullptr;
         selectedLayerName.clear();
         os << "No shape found under cursor" << '\n';
         return;
     }
-    selectedShape = currentLayer->getShapeUnderCursor(cursorPosition);
+    selectedShape = currentLayer->getShapeUnderCursor(cursorPosition, tolerance);
     selectedLayerName = currentLayer->getName();
     os << "Selected shape at: " << *selectedShape << " in layer: " << selectedLayerName << '\n';
 }

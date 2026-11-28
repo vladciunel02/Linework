@@ -54,3 +54,37 @@ void Line::validateSize(double newWidth, double newHeight) const{
         throw std::invalid_argument("Width and height must be non-negative for a line.");
     }
 }
+bool Line::containsPoint(const Point &point, double tolerance) const{
+    double pointX = point.getX();
+    double pointY = point.getY();
+    const double leftTopX = getPosition().getX();
+    const double leftTopY = getPosition().getY();
+    const double rightBottomX = leftTopX + getWidth();
+    const double rightBottomY = leftTopY + getHeight();
+    const double margin = getStyle().getStrokeWidth() / 2 + tolerance;
+    if(pointX + margin < leftTopX || pointX - margin > rightBottomX ||
+       pointY + margin < leftTopY || pointY - margin > rightBottomY) {
+        return false;
+    }
+// pe x, linia merge mereu de la stanga la dreapta
+    const double startX = leftTopX;
+    const double endX = rightBottomX;
+
+// pe y, diagonala decide daca linia coboara sau urca
+    double startY = leftTopY;
+    double endY = rightBottomY;
+    if (lineDirection == Diagonal::BottomLeftToTopRight) {
+        startY = rightBottomY;
+        endY = leftTopY;
+    
+    }
+
+    double base = std::sqrt((endX - startX) * (endX - startX) + (endY - startY) * (endY - startY));
+    double numerator = std::abs((endX - startX) * (pointY - startY) - (endY - startY) * (pointX - startX));
+    double distance = numerator / base;
+    if(distance - Line::getStyle().getStrokeWidth() / 2 <= tolerance) {
+        return true;
+    }
+    return false;
+
+}

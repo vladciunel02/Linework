@@ -9,7 +9,7 @@ Rectangle::Rectangle(const Style &style, const Point &position, double width, do
         validateSize(width, height);
     }
 
-bool Rectangle::containsPoint(const Point &point) const {
+bool Rectangle::containsPoint(const Point &point, double [[maybe_unused]] tolerance) const {
     double x = point.getX();
     double y = point.getY();
     double rectX = getPosition().getX();

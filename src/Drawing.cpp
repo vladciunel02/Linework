@@ -66,19 +66,19 @@ Layer& Drawing::getLayer(const std::string& layerName) {
     }
     throw std::invalid_argument("Layer not found");
 }
-Shape* Drawing::getShapeUnderCursor(const Point& cursorPosition){
-    Layer* layer = getLayerUnderCursor(cursorPosition);
+Shape* Drawing::getShapeUnderCursor(const Point& cursorPosition, double tolerance) {
+    Layer* layer = getLayerUnderCursor(cursorPosition, tolerance);
     if(layer != nullptr) {
-        return layer->getShapeUnderCursor(cursorPosition);
+        return layer->getShapeUnderCursor(cursorPosition, tolerance);
     }
     return nullptr;
 }
-Layer* Drawing::getLayerUnderCursor(const Point& cursorPosition){
+Layer* Drawing::getLayerUnderCursor(const Point& cursorPosition, double tolerance){
     for(auto &layer : layers | std::views::reverse) { // e ca cel cu iterator doar ca mai usor de citit
         if(!layer.isVisible()) {
             continue; 
         }
-        const Shape* shape = layer.getShapeUnderCursor(cursorPosition);
+        const Shape* shape = layer.getShapeUnderCursor(cursorPosition, tolerance);
         if(shape != nullptr) {
             return &layer;
         }

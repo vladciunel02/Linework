@@ -10,7 +10,8 @@ Ellipse::Ellipse(const Style &style, const Point &position, double width, double
 }
 
 
-bool Ellipse::containsPoint(const Point &point) const {
+
+bool Ellipse::containsPoint(const Point &point, double [[maybe_unused]] tolerance) const {
     double x = point.getX();
     double y = point.getY();
     double centerX = getPosition().getX() + getWidth() / 2;

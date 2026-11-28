@@ -24,9 +24,9 @@ void Layer::rename(const std::string &newName){
     name = newName;
 }
 
-Shape* Layer::getShapeUnderCursor(const Point &cursorPosition) {
+Shape* Layer::getShapeUnderCursor(const Point &cursorPosition, double tolerance) {
     for(auto it = shapes.rbegin(); it != shapes.rend(); ++it) {
-        if((*it)->containsPoint(cursorPosition)) {
+        if((*it)->containsPoint(cursorPosition, tolerance)) {
             return it->get();
         }
     }

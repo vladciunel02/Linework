@@ -20,8 +20,8 @@ public:
     void addLayer(const Layer& layer);
     void removeLayer(const std::string& layerName);
     Layer& getLayer(const std::string& layerName);
-    Shape* getShapeUnderCursor(const Point& cursorPosition);
-    Layer* getLayerUnderCursor(const Point& cursorPosition);
+    Shape* getShapeUnderCursor(const Point& cursorPosition, double tolerance);
+    Layer* getLayerUnderCursor(const Point& cursorPosition, double tolerance);
     const std::string& getName() const { return name; }
     void renameLayer(const std::string& oldName, const std::string& newName);
     static Drawing loadFromFile(const std::string& filename);

@@ -28,7 +28,7 @@ class Layer{
     void setVisible(bool newVisible);
     void clear();
     const std::vector<std::unique_ptr<Shape>>& getShapes() const { return shapes; }
-    Shape* getShapeUnderCursor(const Point &cursorPosition);
+    Shape* getShapeUnderCursor(const Point &cursorPosition, double tolerance);
     friend std::ostream& operator<<(std::ostream& os, const Layer& layer);
     Layer& operator=(const Layer& other);
     ~Layer() = default;

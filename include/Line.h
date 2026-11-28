@@ -15,7 +15,7 @@ private:
     Diagonal lineDirection;
 public:
     Line(const Style &style, const Point &position, double width, double height, Diagonal direction);
-    bool containsPoint(const Point &point) const override;
+    bool containsPoint(const Point &point, double tolerance) const override;
     std::unique_ptr<Shape> clone() const override;
     double perimeter() const override;
     double area() const override;

@@ -32,27 +32,27 @@ void testDrawingShapeUnderCursor() {
     Layer& detalii = drawing.getLayer("Detalii");
 
     // (300, 200): dreptunghiul rosu si elipsa galbena se suprapun pe Fundal
-    const Shape* onOverlap = drawing.getShapeUnderCursor(Point{300, 200});
-    const Shape* fromFundal = fundal.getShapeUnderCursor(Point{300, 200});
+    const Shape* onOverlap = drawing.getShapeUnderCursor(Point{300, 200}, 0.0);
+    const Shape* fromFundal = fundal.getShapeUnderCursor(Point{300, 200}, 0.0);
     assert(onOverlap != nullptr && onOverlap == fromFundal && "the drawing finds the top shape of the layer");
 
     // (580, 150): elipsa albastra de pe Detalii
-    const Shape* onDetalii = drawing.getShapeUnderCursor(Point{580, 150});
-    const Shape* fromDetalii = detalii.getShapeUnderCursor(Point{580, 150});
+    const Shape* onDetalii = drawing.getShapeUnderCursor(Point{580, 150}, 0.0);
+    const Shape* fromDetalii = detalii.getShapeUnderCursor(Point{580, 150}, 0.0);
     assert(onDetalii != nullptr && onDetalii == fromDetalii && "the drawing also finds shapes on the second layer");
 
     // (850, 500): dreptunghiul verde iese din panza, dar formele pot sta si in afara ei
-    const Shape* outsideFromLayer = detalii.getShapeUnderCursor(Point{850, 500});
-    const Shape* outsideFromDrawing = drawing.getShapeUnderCursor(Point{850, 500});
+    const Shape* outsideFromLayer = detalii.getShapeUnderCursor(Point{850, 500}, 0.0);
+    const Shape* outsideFromDrawing = drawing.getShapeUnderCursor(Point{850, 500}, 0.0);
     assert(outsideFromLayer != nullptr && "the green rectangle really covers that point");
     assert(outsideFromDrawing == outsideFromLayer && "a shape can be selected where it sticks out of the canvas");
 
     // (2000, 2000): departe de panza si de orice forma
-    const Shape* farAway = drawing.getShapeUnderCursor(Point{2000, 2000});
+    const Shape* farAway = drawing.getShapeUnderCursor(Point{2000, 2000}, 0.0);
     assert(farAway == nullptr && "a click far from every shape selects nothing");
 
     // (600, 400): panza goala
-    const Shape* empty = drawing.getShapeUnderCursor(Point{600, 400});
+    const Shape* empty = drawing.getShapeUnderCursor(Point{600, 400}, 0.0);
     assert(empty == nullptr && "a click on empty canvas selects nothing");
 }
 
@@ -137,7 +137,7 @@ void testDrawingResizeCanvas() {
     assert(out.str().find("Canvas(width: 400, height: 300)") != std::string::npos && "the canvas shrinks even with shapes outside it");
 
     // formele raman neatinse si pot fi selectate in continuare
-    const Shape* green = drawing.getShapeUnderCursor(Point{850, 500});
+    const Shape* green = drawing.getShapeUnderCursor(Point{850, 500}, 0.0);
     assert(green != nullptr && "shapes left outside the canvas are still there");
 
     // dimensiunile invalide sunt refuzate in continuare

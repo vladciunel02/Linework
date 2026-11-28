@@ -10,7 +10,7 @@ Shape::Shape(const Style &style, const Point &position, double width, double hei
         checkFiniteSize(width, height);
 
     }
-void Shape::validateSize (double newWidth, double newHeight) {
+void Shape::validateSize (double newWidth, double newHeight) const {
     if (newWidth <= 0 || newHeight <= 0) {
         throw std::invalid_argument("Width and height must be positive.");
     }

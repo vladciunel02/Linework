@@ -26,9 +26,9 @@ namespace {
 void testLayerTopmostShape() {
     Layer layer = makeOverlappingLayer();
 
-    const Shape* big = layer.getShapeUnderCursor(Point{10, 10});
-    const Shape* top = layer.getShapeUnderCursor(Point{50, 50});
-    const Shape* none = layer.getShapeUnderCursor(Point{500, 500});
+    const Shape* big = layer.getShapeUnderCursor(Point{10, 10}, 0.0);
+    const Shape* top = layer.getShapeUnderCursor(Point{50, 50}, 0.0);
+    const Shape* none = layer.getShapeUnderCursor(Point{500, 500}, 0.0);
 
     assert(big != nullptr && "click on the big rectangle finds it");
     assert(top != nullptr && top != big && "click on the overlap finds the shape on top");
@@ -37,20 +37,20 @@ void testLayerTopmostShape() {
 
 void testLayerReorder() {
     Layer layer = makeOverlappingLayer();
-    const Shape* big = layer.getShapeUnderCursor(Point{10, 10});
-    const Shape* small = layer.getShapeUnderCursor(Point{50, 50});
+    const Shape* big = layer.getShapeUnderCursor(Point{10, 10}, 0.0);
+    const Shape* small = layer.getShapeUnderCursor(Point{50, 50}, 0.0);
 
     layer.bringToFront(big);
-    const Shape* afterFront = layer.getShapeUnderCursor(Point{50, 50});
+    const Shape* afterFront = layer.getShapeUnderCursor(Point{50, 50}, 0.0);
     assert(afterFront == big && "bringToFront puts the big rectangle on top");
 
     layer.sendToBack(big);
-    const Shape* afterBack = layer.getShapeUnderCursor(Point{50, 50});
+    const Shape* afterBack = layer.getShapeUnderCursor(Point{50, 50}, 0.0);
     assert(afterBack == small && "sendToBack puts it back under the small one");
 
     // o forma de pe alt layer nu poate fi mutata in ordinea layer-ului asta
     Layer other = makeOverlappingLayer();
-    const Shape* foreign = other.getShapeUnderCursor(Point{10, 10});
+    const Shape* foreign = other.getShapeUnderCursor(Point{10, 10}, 0.0);
     bool threw = false;
     try {
         layer.bringToFront(foreign);
@@ -64,13 +64,13 @@ void testLayerCopyIsDeep() {
     Layer original = makeOverlappingLayer();
     Layer copy{original};
 
-    const Shape* inOriginal = original.getShapeUnderCursor(Point{10, 10});
-    Shape* inCopy = copy.getShapeUnderCursor(Point{10, 10});   // nu e const: il mutam mai jos
+    const Shape* inOriginal = original.getShapeUnderCursor(Point{10, 10}, 0.0);
+    Shape* inCopy = copy.getShapeUnderCursor(Point{10, 10}, 0.0);   // nu e const: il mutam mai jos
     assert(inCopy != nullptr && "the copy has the shapes too");
     assert(inCopy != inOriginal && "the copy owns new shapes, not the same pointers");
 
     inCopy->moveBy(1000, 0);
-    const Shape* stillInOriginal = original.getShapeUnderCursor(Point{10, 10});
+    const Shape* stillInOriginal = original.getShapeUnderCursor(Point{10, 10}, 0.0);
     assert(stillInOriginal == inOriginal && "moving a shape in the copy leaves the original alone");
 }
 
@@ -83,17 +83,18 @@ void testLayerAssignmentIsDeep() {
     target = original;
     assert(target.getName() == "Fundal" && "assignment copies the name");
 
-    const Shape* oldEllipse = target.getShapeUnderCursor(Point{325, 325});
+    // verificam ca ellipse-ul vechi a fost eliminat
+    const Shape* oldEllipse = target.getShapeUnderCursor(Point{325, 325}, 0.0);
     assert(oldEllipse == nullptr && "assignment drops the old shapes");
 
-    const Shape* inTarget = target.getShapeUnderCursor(Point{10, 10});
-    const Shape* inOriginal = original.getShapeUnderCursor(Point{10, 10});
+    const Shape* inTarget = target.getShapeUnderCursor(Point{10, 10}, 0.0);
+    const Shape* inOriginal = original.getShapeUnderCursor(Point{10, 10}, 0.0);
     assert(inTarget != nullptr && inTarget != inOriginal && "assignment clones the shapes");
 
     // atribuire catre sine, printr-o referinta, ca sa nu avertizeze compilatorul
     Layer& alias = original;
     original = alias;
-    const Shape* afterSelf = original.getShapeUnderCursor(Point{10, 10});
+    const Shape* afterSelf = original.getShapeUnderCursor(Point{10, 10}, 0.0);
     assert(afterSelf != nullptr && "self-assignment keeps the shapes");
 }
 

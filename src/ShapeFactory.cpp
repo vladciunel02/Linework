@@ -5,10 +5,13 @@
 #include "ShapeFactory.h"
 #include "Ellipse.h"
 #include "Rectangle.h"
+#include "Line.h"
 #include <stdexcept>
+
 std::map<std::string, std::function<std::unique_ptr<Shape>(const nlohmann::json&)>> ShapeFactory::shapeCreators = {
     {"Ellipse", Ellipse::fromJson},
-    {"Rectangle", Rectangle::fromJson}
+    {"Rectangle", Rectangle::fromJson},
+    {"Line", Line::fromJson}
 };
 std::unique_ptr<Shape> ShapeFactory::createShape(const nlohmann::json& json){
     std::string type = json.at("type").get<std::string>();
