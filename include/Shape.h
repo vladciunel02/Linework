@@ -35,7 +35,7 @@ public:
     Shape(const Style &style, const Point &position, double width, double height);
     virtual std::string getShapeType() const = 0;
     Point getPosition() const { return position; }
-    virtual void validateSize(double newWidth, double newHeight);
+    virtual void validateSize(double newWidth, double newHeight) const;
     virtual ~Shape() = default;
     
 

@@ -36,3 +36,4 @@ std::unique_ptr<Rectangle> Rectangle::fromJson(const nlohmann::json &json) {
     return readBoxShape<Rectangle>(json);
 }
 
+
